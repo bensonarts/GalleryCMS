@@ -7,7 +7,7 @@ echo form_open('auth/authenticate');
 echo form_fieldset('User Information');
 
 if (isset($login_error)) {
-	echo $login_error;
+	echo '<div class="alert alert-error"><strong>' . $login_error . '</strong></div>';
 }
 echo form_label('Email Address', 'email_address');
 echo form_input('email_address');

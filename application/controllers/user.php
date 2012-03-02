@@ -21,6 +21,12 @@ class User extends MY_Controller
   public function index()
   {
     $data['users'] = $this->User_Model->fetch_all();
+    $flash_login_success = $this->session->flashdata('flash_message'); 
+    if (isset($flash_login_success) && strlen($flash_login_success) > 0)
+    {
+      $data['flash'] = $flash_login_success;
+    }
+    error_log(print_r($flash_login_success, true));
     $this->load->view('user/index', $data);
   }
 
@@ -35,6 +41,7 @@ class User extends MY_Controller
     // Validate form.
     $this->load->helper('form');
     $this->load->library('form_validation');
+    $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
     $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|is_unique[user.email_address]|xss_clean');
     $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|sha1');
     if ($this->form_validation->run() == FALSE)
@@ -54,6 +61,7 @@ class User extends MY_Controller
                    'created_at' => $now,
                    'updated_at' => $now);
       $this->User_Model->create($user_data);
+      $this->session->set_flashdata('flash_message', "User successfully created.");
       redirect('user/index');
     }
   }
@@ -69,10 +77,16 @@ class User extends MY_Controller
   {
     // Validate form.
     $this->load->helper('form');
-    $data['user'] = $this->User_Model->find_by_id($user_id);
+    $user = $this->User_Model->find_by_id($user_id);
+    $data['user'] = $user;
     $this->load->library('form_validation');
-    // TODO Can set a new email address or keep the same.
-    $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|is_unique[user.email_address]|xss_clean');
+    $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
+    $email_address = $this->input->post('email_address');
+    // Can set a new email address or keep the same.
+    if ($email_address !== $user->email_address)
+    {
+      $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|is_unique[user.email_address]|xss_clean');
+    }
     $this->form_validation->set_rules('password', 'Password', 'trim|min_length[5]|sha1');
     if ($this->form_validation->run() == FALSE)
     {
@@ -96,7 +110,7 @@ class User extends MY_Controller
         $user_data['password'] = $password;
       }
       $this->User_Model->update($user_data, $user_id);
-      // TODO Set flash data
+      $this->session->set_flashdata('flash_message', "User successfully updated.");
       redirect("user");
     }
   }
@@ -105,6 +119,7 @@ class User extends MY_Controller
   {
     // TODO Implement functionality.
     $this->User_Model->update(array('is_active' => 0), $user_id);
+    $this->session->set_flashdata('flash_message', "User has been deactivated.");
     redirect("user");
   }
   
@@ -112,12 +127,8 @@ class User extends MY_Controller
   {
     // TODO Implement functionality.
     $this->User_Model->delete($user_id);
+    $this->session->set_flashdata('flash_message', "User has been deleted.");
     redirect("user");
-  }
-  
-  public function change_email($email_address)
-  {
-    // TODO Implement functionality.
   }
   
 }

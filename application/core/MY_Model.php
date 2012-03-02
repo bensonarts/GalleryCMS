@@ -16,9 +16,8 @@ class MY_Model extends CI_Model
   
   public function find_by_id($id)
   {
-    $this->db->from($this->tableName);
-    $this->db->where('id', $id);
-    return $this->db->get();
+    $q = $this->db->get_where($this->tableName, array('id' => $id));
+    return $q->row();
   }
   
   public function create(array $data)

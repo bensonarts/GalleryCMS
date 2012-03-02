@@ -45,6 +45,9 @@ class Auth extends CI_Controller
       /** @todo Create cookie vars */
       $cookie_data = array('name' => 'gallerycms_login', 'value' => 1, 'expire' => -1, 'domain' => 'dev-gallerycms.com', 'path' => '/', 'prefix' => 'gcms_');
       $this->input->set_cookie($cookie_data);
+      
+      $this->session->set_flashdata('flash_message', 'You are logged in.');
+      
       redirect('album');
     }
     else

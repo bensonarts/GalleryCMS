@@ -21,12 +21,6 @@ class User_model extends MY_Model
     }
     return $user_id;
   }
-  
-  public function find_by_id($user_id)
-  {
-    $q = $this->db->get_where($this->tableName, array('id' => $user_id));
-    return $q->row();
-  }
 
   public function update_last_ip($user_id)
   {
