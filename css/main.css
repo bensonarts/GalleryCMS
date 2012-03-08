@@ -1,3 +1,9 @@
 body { padding-top: 60px; padding-bottom: 40px; }
 
+#new-image-list { display: inline; list-style-type: none; }
+#new-image-list li { display: inline; padding: 10px; background: #f0f0f0; border: 1px solid #999; }
+#new-image-list li a { display: block; padding: 10px; background: #f0f0f0; border: 1px solid #999; }
+
 .sidebar-nav { padding: 9px 0; }
+.image { float: left; }
+.clear { clear: both; }

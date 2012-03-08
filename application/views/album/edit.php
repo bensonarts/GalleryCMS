@@ -13,7 +13,9 @@ echo form_input(array('name' => 'album_name', 'id' => 'album_name', 'value' => $
 echo form_fieldset_close(); 
 
 echo form_button(array('id' => 'submit', 'value' => 'Update', 'name' => 'submit', 'type' => 'submit', 'content' => 'Update','class' => 'btn btn-primary'));
-
+?>
+ <a href="<?php echo site_url('album'); ?>" class="btn">Cancel</a>
+<?php
 echo form_close();
 ?>
 

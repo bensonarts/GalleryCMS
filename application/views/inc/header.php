@@ -6,7 +6,20 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
   <link rel="stylesheet" href="/css/main.css">
+  <?php if (isset($css)): ?>
+    <?php foreach ($css as $stylesheet): ?>
+  <link rel="stylesheet" href="/css/<?php echo $stylesheet; ?>">
+    <?php endforeach; ?>
+  <?php endif; ?>
   <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+  <?php if (isset($js)): ?>
+    <?php foreach ($js as $script): ?>
+  <script type="text/javascript" src="/js/<?php echo $script; ?>"></script>
+    <?php endforeach; ?>
+  <?php endif; ?>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">

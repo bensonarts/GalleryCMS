@@ -8,7 +8,9 @@ class User extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    if ($this->is_admin() === FALSE)
+    error_log('is logged in: ' . $this->is_logged_in());
+    error_log('is admin: ' . $this->is_admin());
+    if ($this->is_logged_in() === FALSE && $this->is_admin() === FALSE)
     {
       redirect('album');
     }

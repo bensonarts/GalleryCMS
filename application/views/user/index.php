@@ -25,7 +25,9 @@
     <td>??</td>
     <td><?php echo $user->last_ip; ?></td>
     <td><a class="btn btn-small" href="<?php echo site_url("user/edit/$user->id"); ?>">Edit</a> 
-      <a class="btn btn-small btn-danger" href="<?php echo site_url("user/remove/$user->id"); ?>"><i class="icon-remove icon-white"></i> Delete</a></td>
+      <a class="btn btn-small btn-danger" href="<?php echo site_url("user/remove/$user->id"); ?>"
+        onclick="return confirm('Are you sure you want to delete this user?\r\rThis user\'s albums and images will be permanently deleted.');">
+        <i class="icon-remove icon-white"></i> Delete</a></td>
   </tr>
 <?php endforeach; ?>
 </table>

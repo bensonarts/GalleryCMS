@@ -111,4 +111,14 @@ class Album extends MY_Controller
     $this->session->set_flashdata('flash_message', "Successfully deleted album.");
     redirect('album');
   }
+  
+  public function images($album_id)
+  {
+    $this->load->model('image_model', 'Image_Model');
+    $data['album'] = $this->Album_Model->find_by_id($album_id);
+    $data['images'] = $this->Image_Model->get_images_by_album_id($album_id);
+    $data['user_id'] = $this->get_user_id();
+    $this->load->view('album/images', $data);
+  }
+  
 }

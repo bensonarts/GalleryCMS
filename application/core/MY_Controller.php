@@ -30,9 +30,13 @@ class MY_Controller extends CI_Controller
   public function is_admin()
   {
     $session_data = $this->session->all_userdata();
-    return 1;
-    // TODO FIXME
     return (isset($session_data['is_admin']) && $session_data['is_admin'] === 1);
   }
   
+  public function create_uuid()
+  {
+    $uuid_query = $this->db->query('SELECT UUID()');
+    $uuid_rs = $uuid_query->result_array();
+    return $uuid_rs[0]['UUID()'];
+  }
 }

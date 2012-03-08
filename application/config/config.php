@@ -248,10 +248,10 @@ $config['sess_cookie_name']		= 'gcms_sess';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= FALSE;
-$config['sess_use_database']	= FALSE;
-$config['sess_table_name']		= 'gcms_tbl_sess';
+$config['sess_use_database']	= TRUE;
+$config['sess_table_name']		= 'user_session';
 $config['sess_match_ip']		= FALSE;
-$config['sess_match_useragent']	= TRUE;
+$config['sess_match_useragent']	= FALSE;
 $config['sess_time_to_update']	= 300;
 
 /*
@@ -293,7 +293,8 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-$config['csrf_protection'] = TRUE;
+// TODO Find out a work-around for ajax/flash uploads...
+$config['csrf_protection'] = FALSE;
 $config['csrf_token_name'] = 'gcms_csrf_tkn';
 $config['csrf_cookie_name'] = 'gcms_csrf_ck';
 $config['csrf_expire'] = 7200;
