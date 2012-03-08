@@ -5,12 +5,12 @@
   <title>Test</title>
   <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-  <link rel="stylesheet" href="/css/main.css">
   <?php if (isset($css)): ?>
     <?php foreach ($css as $stylesheet): ?>
   <link rel="stylesheet" href="/css/<?php echo $stylesheet; ?>">
     <?php endforeach; ?>
   <?php endif; ?>
+  <link rel="stylesheet" href="/css/main.css">
   <link rel="shortcut icon" href="/images/favicon.ico">
   
   <script type="text/javascript" src="/js/jquery-1.7.1.min.js"></script>

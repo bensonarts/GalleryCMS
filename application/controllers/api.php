@@ -5,6 +5,11 @@ if (!defined('BASEPATH'))
 
 class Api extends MY_Controller
 {
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->model('image_model', 'Image_Model');
+  }
   public function upload($album_id)
   {
     $config['upload_path'] = './uploads/';
@@ -19,7 +24,6 @@ class Api extends MY_Controller
     
     if (!$this->upload->do_upload('Filedata'))
     {
-      error_log($this->upload->display_errors());
       echo $this->upload->display_errors();
     }
     else
@@ -27,14 +31,20 @@ class Api extends MY_Controller
       $upload_info = $this->upload->data();
 
        // Insert file information into database
-       $this->load->model('image_model', 'Image_Model');
-       
        $now = date('Y-m-d H:i:s');
+       $order_num = $this->Image_Model->get_last_order_num($album_id);
+       error_log("order_num" . $order_num);
+       if (!isset($order_num))
+       {
+         $order_num = 0;
+       }
+       error_log('upload');
+       $order_num++;
        $image_data = array(
         'album_id'       => $album_id,
         'uuid'           => $this->create_uuid(),
         'name'           => $upload_info['file_name'],
-        'order_num'      => 0,
+        'order_num'      => $order_num,
         'caption'        => '',
         'raw_name'       => $upload_info['raw_name'],
         'file_type'      => $upload_info['file_type'],
@@ -70,6 +80,17 @@ class Api extends MY_Controller
     } else {
       echo 'failure';
     }
+  }
+  
+  public function reorder()
+  {
+    // Reorder images with incoming AJAX request
+    foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
+    {
+      error_log('pos: ' . $position . ' :: id ' . $image_id);
+      $this->Image_Model->reorder($image_id, $position + 1);
+    }
+    print_r ($sql);
   }
 }
   

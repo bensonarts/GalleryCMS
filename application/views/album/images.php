@@ -1,5 +1,5 @@
 <?php
-$includes = array('js' => array('swfobject.js', 'jquery.uploadify.v2.1.4.min.js'), 'css' => array('uploadify.css'));
+$includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js', 'jquery.uploadify.v2.1.4.min.js'), 'css' => array('jquery.ui.all.css', 'uploadify.css'));
 ?>
 <?php $this->load->view('inc/header', $includes); ?>
 
@@ -16,22 +16,41 @@ $includes = array('js' => array('swfobject.js', 'jquery.uploadify.v2.1.4.min.js'
 </div>
 
 <?php if (isset($images)): ?>
-<div id="image-container">
+<ul id="sortable">
+  <?php $count = 0; ?>
   <?php foreach ($images->result() as $image): ?>
-  <div class="image">
-    <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
-    <p><?php echo $image->name; ?><br />
-      <span>File name: <?php echo $image->file_name; ?></span><br />
-      <span>Published: <?php echo $image->published; ?></span><br />
-      <span>Created: <?php echo $image->created_at; ?></span></p>
-  </div>
+    <?php $count++; ?>
+  <li id="image_<?php echo $count; ?>" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+    <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" /><br />
+    <span><?php echo $image->name; ?></span><br />
+    <span>ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $count; ?></span>
+  </li>
   <?php endforeach; ?>
-  <div class="clear"></div>
-</div>
+</ul>
 <?php endif; ?>
+<div id="info"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
+  $("#sortable").sortable({
+    update : function () { 
+      var order = $('#sortable').sortable('serialize', { key : 'order_num[]' }); 
+      $('#info').html(order);
+      $.ajax({
+        url          : '<?php echo base_url(); ?>index.php/api/reorder?' + order,
+        type         : 'GET',
+        cache        : false,
+        success      : function(reponse) {
+          alert(response);
+        },
+        error        : function(jqXHR, textStatus, errorThrown) {
+          alert(textStatus);
+        }
+      });
+    }
+  });
+  $( "#sortable" ).disableSelection();
+  
   $('#file_upload').uploadify({
     'uploader'       : '<?php echo base_url(); ?>flash/uploadify.swf',
     'script'         : '<?php echo base_url(); ?>index.php/api/upload/<?php echo $album->id; ?>',
@@ -60,7 +79,7 @@ $(document).ready(function() {
           }
         },
         error        : function(jqXHR, textStatus, errorThrown) {
-          alert(jqXHR, textStatus, errorThrown);
+          alert(textStatus);
         }
       });
     }

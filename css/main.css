@@ -4,6 +4,9 @@ body { padding-top: 60px; padding-bottom: 40px; }
 #new-image-list li { display: inline; padding: 10px; background: #f0f0f0; border: 1px solid #999; }
 #new-image-list li a { display: block; padding: 10px; background: #f0f0f0; border: 1px solid #999; }
 
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 80px; }
+  #sortable li span { position: absolute; margin-left: -1.3em; }
+
 .sidebar-nav { padding: 9px 0; }
-.image { float: left; }
 .clear { clear: both; }
