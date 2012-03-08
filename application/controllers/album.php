@@ -15,6 +15,7 @@ class Album extends MY_Controller
     else
     {
       $this->load->model('album_model', 'Album_Model');
+      $this->load->model('image_model', 'Image_Model');
     }
   }
   
@@ -106,7 +107,27 @@ class Album extends MY_Controller
   
   public function remove($album_id)
   {
-    // TODO Implement functionality
+    // Delete all photos with this album id
+    $query = $this->Image_Model->get_images_by_album_id($album_id);
+    $rs = $query->result();
+    if (isset($rs))
+    {
+      foreach($rs as $image) {
+        $file_name = $image->path . $image->file_name;
+        $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
+        if (file_exists($file_name))
+        {
+          unlink($file_name);
+        }
+        if (file_exists($thumbnail_name))
+        {
+          unlink($thumbnail_name);
+        }
+      }
+    }
+    // Delete image records
+    $this->Image_Model->delete_by_album_id($album_id);
+    // Delete album record
     $this->Album_Model->delete($album_id);
     $this->session->set_flashdata('flash_message', "Successfully deleted album.");
     redirect('album');
@@ -114,11 +135,15 @@ class Album extends MY_Controller
   
   public function images($album_id)
   {
-    $this->load->model('image_model', 'Image_Model');
     $data['album'] = $this->Album_Model->find_by_id($album_id);
     $data['images'] = $this->Image_Model->get_images_by_album_id($album_id);
     $data['user_id'] = $this->get_user_id();
     $this->load->view('album/images', $data);
+  }
+  
+  public function configure($album_id)
+  {
+    // TODO Implement functionality
   }
   
 }

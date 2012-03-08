@@ -23,9 +23,9 @@
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
-          <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-picture"></i> Add Photos</a></li>
-          <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-cog"></i> Configure</a></li>
+          <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i> Rename</a></li>
+          <li><a href="<?php echo site_url("album/images/$album->id"); ?>"><i class="icon-picture"></i> Add Photos</a></li>
+          <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i> Configure</a></li>
           <li><a class="album-delete-btn" href="#album-modal" data-toggle="modal" rel="<?php echo site_url("album/remove/$album->id"); ?>"><i class="icon-trash"></i> Delete</a></li>
         </ul>
       </div>
