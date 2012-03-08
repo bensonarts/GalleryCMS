@@ -87,10 +87,9 @@ class Api extends MY_Controller
     // Reorder images with incoming AJAX request
     foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
     {
-      error_log('pos: ' . $position . ' :: id ' . $image_id);
       $this->Image_Model->reorder($image_id, $position + 1);
     }
-    print_r ($sql);
+    echo 'success';
   }
 }
   

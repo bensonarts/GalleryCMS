@@ -17,13 +17,11 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
 
 <?php if (isset($images)): ?>
 <ul id="sortable">
-  <?php $count = 0; ?>
   <?php foreach ($images->result() as $image): ?>
-    <?php $count++; ?>
-  <li id="image_<?php echo $count; ?>" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+  <li id="image_<?php echo $image->id; ?>" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
     <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" /><br />
     <span><?php echo $image->name; ?></span><br />
-    <span>ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $count; ?></span>
+    <span>ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $image->order_num; ?></span>
   </li>
   <?php endforeach; ?>
 </ul>
