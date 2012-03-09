@@ -39,4 +39,16 @@ class MY_Controller extends CI_Controller
     $uuid_rs = $uuid_query->result_array();
     return $uuid_rs[0]['UUID()'];
   }
+  
+  protected function send_mail($to, $subject, $message)
+  {
+    $this->load->library('email');
+    // TODO Pull from config
+    $this->email->from('admin@gallerycms.com');
+    $this->email->to($to);
+    $this->email->subject($subject);
+    $this->email->message($message);
+    $this->email->send();
+  }
+  
 }

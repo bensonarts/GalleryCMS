@@ -65,12 +65,13 @@ class Api extends MY_Controller
 
   public function resize($filename)
   {
-    $config['image_library'] = 'gd2';
-    $config['source_image'] = './uploads/' . $filename;
-    $config['create_thumb'] = TRUE;
-    $config['maintain_ratio'] = TRUE;
-    $config['width']   = 75;
-    $config['height'] = 50;
+    $config['image_library']   = 'gd2';
+    $config['source_image']    = './uploads/' . $filename;
+    $config['create_thumb']    = TRUE;
+    $config['maintain_ratio']  = TRUE;
+    // TODO Pull from album's config
+    $config['width']           = 100;
+    $config['height']          = 100;
     
     $this->load->library('image_lib', $config); 
     

@@ -8,8 +8,6 @@ class User extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    error_log('is logged in: ' . $this->is_logged_in());
-    error_log('is admin: ' . $this->is_admin());
     if ($this->is_logged_in() === FALSE && $this->is_admin() === FALSE)
     {
       redirect('album');
@@ -28,7 +26,6 @@ class User extends MY_Controller
     {
       $data['flash'] = $flash_login_success;
     }
-    error_log(print_r($flash_login_success, true));
     $this->load->view('user/index', $data);
   }
 
@@ -89,7 +86,7 @@ class User extends MY_Controller
     {
       $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|is_unique[user.email_address]|xss_clean');
     }
-    $this->form_validation->set_rules('password', 'Password', 'trim|min_length[5]|sha1');
+    $this->form_validation->set_rules('password', 'Password', 'trim|min_length[5]|matches[password_conf]|sha1');
     if ($this->form_validation->run() == FALSE)
     {
       // Form didn't validate
@@ -120,6 +117,7 @@ class User extends MY_Controller
   public function deactivate($user_id)
   {
     // TODO Implement functionality.
+    // TODO Unpublish user's images and albums
     $this->User_Model->update(array('is_active' => 0), $user_id);
     $this->session->set_flashdata('flash_message', "User has been deactivated.");
     redirect("user");
@@ -128,6 +126,7 @@ class User extends MY_Controller
   public function remove($user_id)
   {
     // TODO Implement functionality.
+    // TODO Remove user's images and albums
     $this->User_Model->delete($user_id);
     $this->session->set_flashdata('flash_message', "User has been deleted.");
     redirect("user");

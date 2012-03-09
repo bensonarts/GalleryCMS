@@ -20,7 +20,7 @@ echo form_checkbox('is_active', '1', TRUE);
 echo form_label('Is admin?', 'is_admin');
 echo form_checkbox('is_admin', '1', FALSE);
 
-echo form_fieldset_close(); 
+echo form_fieldset_close();
 
 echo form_button(array('id' => 'submit', 'value' => 'Add', 'name' => 'submit', 'type' => 'submit', 'content' => 'Add','class' => 'btn btn-primary'));
 

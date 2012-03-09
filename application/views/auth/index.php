@@ -21,5 +21,6 @@ echo form_button(array('id' => 'submit', 'value' => 'Login', 'name' => 'submit',
 
 echo form_close();
 ?>
+<p><a href="<?php echo site_url('auth/forgotpassword'); ?>">Forgot Password?</a></p>
 
 <?php $this->load->view('inc/footer'); ?>

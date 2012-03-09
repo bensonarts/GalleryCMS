@@ -21,6 +21,11 @@ class User_model extends MY_Model
     }
     return $user_id;
   }
+  
+  public function get_by_email_address($email_address)
+  {
+    return $this->db->get_where($this->tableName, array('email_address' => $email_address));
+  }
 
   public function update_last_ip($user_id)
   {
@@ -31,6 +36,11 @@ class User_model extends MY_Model
   {
     $now = date('Y-m-d H:i:s');
     $this->db->update($this->tableName, array('last_logged_in' => $now), array('id' => $user_id));
+  }
+  
+  public function update_password($password, $user_id)
+  {
+    $this->db->update($this->tableName, array('password' => $password), array('id' => $user_id));
   }
 
 }

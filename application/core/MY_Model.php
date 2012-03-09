@@ -23,6 +23,7 @@ class MY_Model extends CI_Model
   public function create(array $data)
   {
     $this->db->insert($this->tableName, $data);
+    return $this->db->insert_id();
   }
   
   public function update(array $data, $id)
@@ -35,5 +36,11 @@ class MY_Model extends CI_Model
     $this->db->delete($this->tableName, array('id' => $id)); 
   }
   
+  protected function create_uuid()
+  {
+    $uuid_query = $this->db->query('SELECT UUID()');
+    $uuid_rs = $uuid_query->result_array();
+    return $uuid_rs[0]['UUID()'];
+  }
 
 }

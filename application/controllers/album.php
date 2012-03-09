@@ -64,9 +64,9 @@ class Album extends MY_Controller
                    'name' => $this->input->post('album_name'), 
                    'created_by' => $user_data['user_id'],
                    'updated_by' => $user_data['user_id']);
-      $this->Album_Model->create($data);
+      $new_ablum_id = $this->Album_Model->create($data);
       $this->session->set_flashdata('flash_message', "Successfully created album.");
-      redirect('album');
+      redirect('album/images/' . $new_ablum_id);
     }
   }
   

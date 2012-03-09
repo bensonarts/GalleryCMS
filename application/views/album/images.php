@@ -1,5 +1,5 @@
 <?php
-$includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js', 'jquery.uploadify.v2.1.4.min.js'), 'css' => array('jquery.ui.all.css', 'uploadify.css'));
+$includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js', 'jquery.uploadify.v2.1.4.min.js'), 'css' => array('uploadify.css'));
 ?>
 <?php $this->load->view('inc/header', $includes); ?>
 
@@ -19,27 +19,26 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
 <ul id="sortable">
   <?php foreach ($images->result() as $image): ?>
   <li id="image_<?php echo $image->id; ?>" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-    <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" /><br />
-    <span><?php echo $image->name; ?></span><br />
-    <span>ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $image->order_num; ?></span>
+    <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+    <span class="info"><?php echo $image->name; ?><br />
+    ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $image->order_num; ?></span>
+    <div class="clear"></div>
   </li>
   <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<div id="info"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
   $("#sortable").sortable({
     update : function () { 
       var order = $('#sortable').sortable('serialize', { key : 'order_num[]' }); 
-      $('#info').html(order);
       $.ajax({
         url          : '<?php echo base_url(); ?>index.php/api/reorder?' + order,
         type         : 'GET',
         cache        : false,
         success      : function(reponse) {
-          alert(response);
+          // alert(response); TODO Show success
         },
         error        : function(jqXHR, textStatus, errorThrown) {
           alert(textStatus);

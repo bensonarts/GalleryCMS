@@ -14,6 +14,10 @@ echo form_error('password');
 echo form_label('Password (leave blank to keep the same)', 'password');
 echo form_password('password');
 
+echo form_error('password_conf');
+echo form_label('Re-type password', 'password_conf');
+echo form_password('password_conf');
+
 echo form_label('Is active?', 'is_active');
 echo form_checkbox('is_active', '1', $user->is_active);
 
