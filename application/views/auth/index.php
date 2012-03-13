@@ -1,6 +1,9 @@
 <?php $this->load->view('inc/header_guest'); ?>
 
-<h1>Login</h1>
+<div class="page-header">
+  <h1>Login</h1>
+</div>
+
 <?php
 echo form_open('auth/authenticate');
 

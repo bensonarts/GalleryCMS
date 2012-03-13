@@ -4,7 +4,10 @@
 <div class="alert alert-success"><a class="close" data-dismiss="alert">x</a><strong><?php echo $flash; ?></strong></div>
 <?php endif; ?>
 
-<h2>Albums</h2>
+<div class="page-header">
+  <h1>Albums</h1>
+</div>
+
 <?php if (isset($albums)): ?>
 <table class="table table-striped table-bordered">
   <tr>

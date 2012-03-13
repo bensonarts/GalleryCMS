@@ -1,6 +1,8 @@
 <?php $this->load->view('inc/header_guest'); ?>
 
-<h1>Email Sent</h1>
+<div class="page-header">
+  <h1>Email Sent</h1>
+</div>
 
 <p>An email has been sent to your email address with a link to reset your password.</p>
 

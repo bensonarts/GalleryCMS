@@ -27,7 +27,9 @@ echo form_checkbox('is_admin', '1', $user->is_admin);
 echo form_fieldset_close(); 
 
 echo form_button(array('id' => 'submit', 'value' => 'Update', 'name' => 'submit', 'type' => 'submit', 'content' => 'Update','class' => 'btn btn-primary'));
-
+?>
+ <a href="<?php echo site_url('user'); ?>" class="btn">Cancel</a>
+<?php
 echo form_close();
 ?>
 

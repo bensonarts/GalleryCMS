@@ -26,6 +26,7 @@ class User extends MY_Controller
     {
       $data['flash'] = $flash_login_success;
     }
+    $data['user_id'] = $this->get_user_id();
     $this->load->view('user/index', $data);
   }
 
@@ -42,7 +43,7 @@ class User extends MY_Controller
     $this->load->library('form_validation');
     $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
     $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|is_unique[user.email_address]|xss_clean');
-    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|sha1');
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[5]|matches[password_conf]|sha1');
     if ($this->form_validation->run() == FALSE)
     {
       // Form didn't validate

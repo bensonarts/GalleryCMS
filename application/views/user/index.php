@@ -4,35 +4,82 @@
 <div class="alert alert-success"><a class="close" data-dismiss="alert">x</a><strong><?php echo $flash; ?></strong></div>
 <?php endif; ?>
 
-<h1>Users</h1>
+<div class="page-header">
+  <h1>Users</h1>
+</div>
 
 <?php if (isset($users)): ?>
 <table class="table table-striped table-bordered">
   <tr>
     <th>Email address</th>
     <th>Is admin</th>
+    <th>Is activated</th>
     <th>Created</th>
     <th>Last logged in</th>
     <th># of albums</th>
-    <th colspan="2">Last IP</th>
+    <th>Last IP</th>
+    <th><a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a></th>
   </tr>
 <?php foreach ($users->result() as $user): ?>
   <tr>
     <td><?php echo $user->email_address; ?></td>
-    <td><?php echo $user->is_admin; ?></td>
-    <td><?php echo $user->created_at; ?></td>
-    <td><?php echo $user->last_logged_in; ?></td>
+    <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>
+    <td><?php echo (($user->is_admin == 1) ? 'Yes' : 'No'); ?></td>
+    <td><?php echo date('M j, Y', strtotime($user->created_at)); ?></td>
+    <td><?php
+    if (isset($user->last_logged_in)):
+      echo date('M j, Y', strtotime($user->last_logged_in));
+    endif;
+    ?></td>
     <td>??</td>
     <td><?php echo $user->last_ip; ?></td>
-    <td><a class="btn btn-small" href="<?php echo site_url("user/edit/$user->id"); ?>">Edit</a> 
-      <a class="btn btn-small btn-danger" href="<?php echo site_url("user/remove/$user->id"); ?>"
-        onclick="return confirm('Are you sure you want to delete this user?\r\rThis user\'s albums and images will be permanently deleted.');">
-        <i class="icon-remove icon-white"></i> Delete</a></td>
+    <td>
+      <div class="btn-group">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          Action
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="<?php echo site_url("user/edit/$user->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
+          <?php if ($user_id != $user->id): ?>
+          <li><a href="<?php echo site_url("user/deactivate/$user->id"); ?>"><i class="icon-ban-circle"></i> Deactivate</a></li>
+          <li><a class="user-delete-btn" href="#user-modal" data-toggle="modal" rel="<?php echo site_url("user/remove/$user->id"); ?>">
+              <i class="icon-trash"></i> Delete</a></li>
+          <?php endif; ?>
+        </ul>
+      </div>
+    </td>
   </tr>
 <?php endforeach; ?>
 </table>
 <?php endif; ?>
 
-<p><a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a></p>
+<div class="modal hide fade" id="user-modal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Delete User</h3>
+  </div>
+  <div class="modal-body">
+    <p><strong>Are you sure you want to delete this user?</strong></p>
+    <p>This will permanently delete all photos and albums belonging to this user.</p>
+  </div>
+  <div class="modal-footer">
+    <a id="user-modal-delete-btn" href="#" class="btn btn-danger">Delete</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+var deleteUrl;
+$(document).ready(function() {
+  $('.user-delete-btn').click(function() {
+    deleteUrl = $(this).attr('rel');
+  });
+  
+  $('#user-modal').on('show', function() {
+    $('#user-modal-delete-btn').attr('href', deleteUrl);
+  });
+});
+</script>
 
 <?php $this->load->view('inc/footer'); ?>

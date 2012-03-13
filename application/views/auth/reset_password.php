@@ -1,6 +1,9 @@
 <?php $this->load->view('inc/header_guest'); ?>
 
-<h1>Reset Password</h1>
+<div class="page-header">
+  <h1>Reset Password</h1>
+</div>
+
 <?php
 if (isset($error)) {
   echo '<div class="alert alert-error"><strong>' . $error . '</strong></div>';

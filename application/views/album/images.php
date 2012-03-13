@@ -7,30 +7,81 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
 <div class="alert alert-success"><a class="close" data-dismiss="alert">x</a><strong><?php echo $flash; ?></strong></div>
 <?php endif; ?>
 
-<h2><?php echo $album->name; ?></h2>
-<input id="file_upload" type="file" name="file_upload" />
-<p><a href="javascript:$('#file_upload').uploadifyUpload()">Upload Files</a></p>
-
-<div id="new-images">
-  <ul id="new-image-list"></ul>
+<div class="w100" style="margin-bottom: 10px;">
+  <div class="page-header">
+    <h1><?php echo $album->name; ?></h1>
+  </div>
+  <div class="well">
+    <h2 style="margin-bottom: 10px;">Upload</h2>
+    <input id="file_upload" type="file" name="file_upload" />
+    <p id="upload-btn" style="margin:10px 0;">
+      <a href="javascript:$('#file_upload').uploadifyUpload()" class="btn btn-primary btn-large">Upload Files</a>
+    </p>
+    <div id="new-images">
+      <h4>Uploaded Images</h4>
+      <p><a class="btn" href="<?php echo site_url("album/images/$album->id"); ?>" style="margin: 10px 0;"><i class="icon-refresh"></i> Refresh</a></p>
+      <ul id="new-image-list"></ul>
+      <div class="clear"></div>
+    </div>
+  </div>
+  <h3>JSON feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><?php echo site_url("api/feed/json/$album->id"); ?></a></pre></h3>
+  <h3>XML feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>"><?php echo site_url("api/feed/xml/$album->id"); ?></a></pre></h3>
 </div>
 
-<?php if (isset($images)): ?>
-<ul id="sortable">
-  <?php foreach ($images->result() as $image): ?>
-  <li id="image_<?php echo $image->id; ?>" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-    <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
-    <span class="info"><?php echo $image->name; ?><br />
-    ID: <?php echo $image->id; ?> ORDER_NUM: <?php echo $image->order_num; ?></span>
-    <div class="clear"></div>
-  </li>
-  <?php endforeach; ?>
-</ul>
-<?php endif; ?>
+<span class="left w75">
+  <?php 
+  $total_file_size = 0;
+  $total_images = 0;
+  ?>
+  <?php if (isset($images)): ?>
+  <ul id="sortable">
+    <?php foreach ($images->result() as $image): ?>
+    <?php 
+    $total_file_size += $image->file_size; 
+    $total_images++;
+    ?>
+    <li id="image_<?php echo $image->id; ?>" class="ui-state-default">
+      <span class="drag-handle"></span>
+      <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+      <span class="info">
+        <?php echo $image->name; ?><br />
+        File size: <?php echo $image->file_size; ?> KB
+      </span>
+      <div class="btn-group" style="float:right;">
+        <a href="<?php echo site_url("image/view/$image->id"); ?>" class="btn" title="View"><i class="icon-zoom-in"></i></a>
+        <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download"></i></a>
+        <a href="<?php echo site_url("image/edit/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
+        <a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
+        <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
+        <a href="<?php echo site_url("image/delete/$image->id"); ?>" class="btn btn-danger" title="Delete"><i class="icon-remove icon-white"></i></a>
+      </div>
+      <div class="clear"></div>
+    </li>
+    <?php endforeach; ?>
+  </ul>
+  <?php endif; ?>
+</span>
+<span class="right w20">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <li class="nav-header"><?php echo $album->name; ?></li>
+      <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
+      <li><a href="<?php echo site_url("album/unpublish/$album->id"); ?>"><i class="icon-ban-circle"></i>Unpublish</a></li>
+      <li class="nav-header">Info</li>
+      <li>Images: <?php echo $total_images; ?></li>
+      <li>Album file size: <?php echo round($total_file_size / 1024, 2); ?> MB</li>
+    </ul>
+  </div>
+</span>
+<div class="clear"></div>
 
 <script type="text/javascript">
 $(document).ready(function() {
+  $('#upload-btn').hide();
+  $('#new-images').hide();
+  
   $("#sortable").sortable({
+    handle : '.drag-handle',
     update : function () { 
       var order = $('#sortable').sortable('serialize', { key : 'order_num[]' }); 
       $.ajax({
@@ -59,7 +110,16 @@ $(document).ready(function() {
     'fileExt'        : '*.jpg;*.jpeg;*.gif;*.png',
     'fileDesc'       : 'Image files',
     'sizeLimit'      : 2097152, // 2MB
+    'wmode'          : 'opaque',
+    'onSelect'       : function(event, ID, fileObj) {
+      $('#upload-btn').show();
+    },
+    'onCancel'       : function(event, ID, fileObj) {
+      $('#upload-btn').hide();
+    },
     'onComplete'     : function(event, ID, fileObj, response, data) {
+      $('#upload-btn').hide();
+      $('#new-images').show();
       $.ajax({
         url          : '<?php echo base_url(); ?>index.php/api/resize/' + response,
         type         : 'POST',
@@ -68,7 +128,7 @@ $(document).ready(function() {
           if (response === 'success') {
             var file_name = fileObj.name.substr(0, fileObj.name.lastIndexOf('.'));
             var file_ext = fileObj.name.split('.').pop();
-            var new_image = '<li><a href="#"><img src="<?php echo base_url(); ?>uploads/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</a></li>';
+            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
             $('#new-image-list').append(new_image);
           } else {
             var fail_message = '<li>Thumbnail creation failed for: ' + fileObj.name + '</li>';
