@@ -96,7 +96,7 @@ $(document).ready(function() {
           // alert(response); TODO Show success
         },
         error        : function(jqXHR, textStatus, errorThrown) {
-          alert(textStatus);
+          alert('An error occured when ordering the images.');
         }
       });
     }
@@ -140,7 +140,7 @@ $(document).ready(function() {
           }
         },
         error        : function(jqXHR, textStatus, errorThrown) {
-          alert(textStatus);
+          alert('Error occurred when generating thumbnails.');
         }
       });
     }
