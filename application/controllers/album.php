@@ -30,7 +30,7 @@ class Album extends MY_Controller
       $data['albums'] = $this->Album_Model->fetch_by_user_id($this->get_user_id());
     }
     $flash_login_success = $this->session->flashdata('flash_message'); 
-    if (isset($flash_login_success) && strlen($flash_login_success) > 0)
+    if (isset($flash_login_success) && ! empty($flash_login_success))
     {
       $data['flash'] = $flash_login_success;
     }
@@ -138,6 +138,11 @@ class Album extends MY_Controller
     $data['album'] = $this->Album_Model->find_by_id($album_id);
     $data['images'] = $this->Image_Model->get_images_by_album_id($album_id);
     $data['user_id'] = $this->get_user_id();
+    $flash_login_success = $this->session->flashdata('flash_message'); 
+    if (isset($flash_login_success) && ! empty($flash_login_success))
+    {
+      $data['flash'] = $flash_login_success;
+    }
     $this->load->view('album/images', $data);
   }
   

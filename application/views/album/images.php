@@ -41,21 +41,25 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
     $total_images++;
     ?>
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default">
-      <span class="drag-handle"></span>
-      <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
-      <span class="info">
-        <?php echo $image->name; ?><br />
+      <div class="drag-handle"></div>
+      <div class="image-container">
+        <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+      </div>
+      <div class="info">
+        File name: <?php echo $image->name; ?><br />
+        Caption: <?php echo $image->caption; ?><br />
+        Comments: <?php echo 0; /** @todo */ ?><br />
         File size: <?php echo $image->file_size; ?> KB
-      </span>
-      <div class="btn-group" style="float:right;">
+      </div>
+      <div class="btn-group">
         <a href="<?php echo site_url("image/view/$image->id"); ?>" class="btn" title="View"><i class="icon-zoom-in"></i></a>
         <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download"></i></a>
         <a href="<?php echo site_url("image/edit/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
         <a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
         <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
-        <a href="<?php echo site_url("image/delete/$image->id"); ?>" class="btn btn-danger" title="Delete"><i class="icon-remove icon-white"></i></a>
+        <a href="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" class="btn btn-danger" title="Delete"
+           onclick="confirm('Are you sure you wish to delete this image?')"><i class="icon-remove icon-white"></i></a>
       </div>
-      <div class="clear"></div>
     </li>
     <?php endforeach; ?>
   </ul>

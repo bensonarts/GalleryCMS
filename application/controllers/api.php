@@ -33,12 +33,10 @@ class Api extends MY_Controller
        // Insert file information into database
        $now = date('Y-m-d H:i:s');
        $order_num = $this->Image_Model->get_last_order_num($album_id);
-       error_log("order_num" . $order_num);
        if (!isset($order_num))
        {
          $order_num = 0;
        }
-       error_log('upload');
        $order_num++;
        $image_data = array(
         'album_id'       => $album_id,
