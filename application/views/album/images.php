@@ -46,14 +46,14 @@ $includes = array(
     $total_images++;
     $img_url = base_url() . 'uploads/' . $image->name;
     ?>
-    <li id="image_<?php echo $image->id; ?>" class="ui-state-default">
-      <div class="drag-handle"></div>
+    <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 6; ?>px">
+      <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
       <div class="image-container">
         <a class="album-images" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
-          <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+          <img src="<?php echo base_url() . 'uploads/thumb/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
-      <div class="info">
+      <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">
         File name: <?php echo $image->name; ?><br />
         Caption: <?php echo $image->caption; ?><br />
         Comments: <?php echo 0; /** @todo */ ?><br />
@@ -78,6 +78,7 @@ $includes = array(
     <ul class="nav nav-list">
       <li class="nav-header"><?php echo $album->name; ?></li>
       <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
+      <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i>Configure</a></li>
       <li><a href="<?php echo site_url("album/unpublish/$album->id"); ?>"><i class="icon-ban-circle"></i>Unpublish</a></li>
       <li class="nav-header">Info</li>
       <li>Images: <?php echo $total_images; ?></li>
@@ -136,14 +137,14 @@ $(document).ready(function() {
       $('#upload-btn').hide();
       $('#new-images').show();
       $.ajax({
-        url          : '<?php echo base_url(); ?>index.php/api/resize/' + response,
+        url          : '<?php echo base_url(); ?>index.php/api/resize/<?php echo $album->id; ?>/' + response,
         type         : 'POST',
         cache        : false,
         success      : function(response) {
           if (response === 'success') {
             var file_name = fileObj.name.substr(0, fileObj.name.lastIndexOf('.'));
             var file_ext = fileObj.name.split('.').pop();
-            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
+            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/thumb/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
             $('#new-image-list').append(new_image);
           } else {
             var fail_message = '<li>Thumbnail creation failed for: ' + fileObj.name + '</li>';

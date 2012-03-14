@@ -22,7 +22,7 @@ class User extends MY_Controller
   {
     $data['users'] = $this->user_model->fetch_all();
     $flash_login_success = $this->session->flashdata('flash_message'); 
-    if (isset($flash_login_success) && strlen($flash_login_success) > 0)
+    if (isset($flash_login_success) && ! empty($flash_login_success))
     {
       $data['flash'] = $flash_login_success;
     }
@@ -105,7 +105,7 @@ class User extends MY_Controller
                    'updated_at' => $now);
       // Password can be optionally changed.
       $password = $this->input->post('password');
-      if (isset($password) && strlen($password) > 0)
+      if (isset($password) && ! empty($password))
       {
         $user_data['password'] = $password;
       }

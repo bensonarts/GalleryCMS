@@ -17,13 +17,13 @@ class Api extends MY_Controller
    */
   public function upload($album_id)
   {
-    $config['upload_path'] = './uploads/';
-    $config['allowed_types'] = 'gif|jpg|png';
-    $config['max_size'] = '2048'; // 2MB
-    $config['overwrite'] = TRUE;
-    $config['remove_spaces'] = TRUE;
-    $config['encrypt_name'] = FALSE;
-    $config['overwrite'] = FALSE;
+    $config['upload_path']    = './uploads/';
+    $config['allowed_types']  = 'gif|jpg|png';
+    $config['max_size']       = '2048'; // 2MB
+    $config['overwrite']      = TRUE;
+    $config['remove_spaces']  = TRUE;
+    $config['encrypt_name']   = FALSE;
+    $config['overwrite']      = FALSE;
     
     $this->load->library('upload', $config);
     
@@ -70,19 +70,26 @@ class Api extends MY_Controller
    *
    * @param type $filename 
    */
-  public function resize($filename)
+  public function resize($album_id, $filename)
   {
+    $this->load->model('config_model');
+    $album_config = $this->config_model->get_by_album_id($album_id);
+    
     $config['image_library']   = 'gd2';
     $config['source_image']    = './uploads/' . $filename;
     $config['create_thumb']    = TRUE;
     $config['maintain_ratio']  = TRUE;
-    // TODO Pull from album's config
-    $config['width']           = 100;
-    $config['height']          = 100;
+    $config['new_image']       = './uploads/thumb/' . $filename;
+    $config['width']           = $album_config->thumb_width;
+    $config['height']          = $album_config->thumb_height;
+    // TODO Handle cropping.
     
     $this->load->library('image_lib', $config); 
     
-    if ($this->image_lib->resize())
+    $success = $this->image_lib->resize();
+    $this->image_lib->clear();
+    
+    if ($success == TRUE)
     {
       echo 'success';
     } else {

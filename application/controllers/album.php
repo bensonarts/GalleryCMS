@@ -60,12 +60,20 @@ class Album extends MY_Controller
     else
     {
       // Success, create album & redirect
-      $now = date('Y-m-d H:i:s');
       $data = array(
                    'name' => $this->input->post('album_name'), 
                    'created_by' => $user_data['user_id'],
                    'updated_by' => $user_data['user_id']);
       $new_ablum_id = $this->album_model->create($data);
+      
+      $this->load->model('config_model');
+      $this->config_model->create(array(
+          'album_id' => $new_ablum_id,
+          'thumb_width' => 100,
+          'thumb_height' => 100,
+          'crop_thumbnails' => 0
+      ));
+      
       $this->session->set_flashdata('flash_message', "Successfully created album.");
       redirect('album/images/' . $new_ablum_id);
     }
@@ -129,12 +137,19 @@ class Album extends MY_Controller
     $this->image_model->delete_by_album_id($album_id);
     // Delete album record
     $this->album_model->delete($album_id);
+    // Delete album config
+    $this->load->model('config_model');
+    $this->config_model->delete_by_album_id($album_id);
+    
     $this->session->set_flashdata('flash_message', "Successfully deleted album.");
     redirect('album');
   }
   
   public function images($album_id)
   {
+    $this->load->model('config_model');
+    
+    $data['config'] = $this->config_model->get_by_album_id($album_id);
     $data['album'] = $this->album_model->find_by_id($album_id);
     $data['images'] = $this->image_model->get_images_by_album_id($album_id);
     $data['user_id'] = $this->get_user_id();
@@ -148,7 +163,61 @@ class Album extends MY_Controller
   
   public function configure($album_id)
   {
-    // TODO Implement functionality
+    $this->load->model('config_model');
+    $this->load->helper('form');
+    
+    $thumb_width = $this->input->post('thumb_width');
+    
+    if (isset($thumb_width) && ! empty($thumb_width))
+    {
+      $this->load->library('form_validation');
+      $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
+      $this->form_validation->set_rules('thumb_width', 'Thumbnail width', 'trim|required|max_length[3]|less_than[300]|greater_than[0]|is_natural|xss_clean');
+      $this->form_validation->set_rules('thumb_height', 'Thumbnail height', 'trim|required|max_length[3]|less_than[300]|greater_than[0]|is_natural|xss_clean');
+
+      if ($this->form_validation->run() != FALSE)
+      {
+        $this->config_model->update_by_album_id(array(
+            'album_id' => $album_id,
+            'thumb_width' => $this->input->post('thumb_width'),
+            'thumb_height' => $this->input->post('thumb_height'),
+            'crop_thumbnails' => $this->input->post('crop_thumbnails')
+        ), $album_id);
+        
+        // TODO Update all album's thumbnails
+        $images = $this->image_model->get_images_by_album_id($album_id);
+        if ( ! empty($images))
+        {
+          $this->load->library('image_lib');
+          $config = array();
+          foreach ($images as $image)
+          {
+            $config['image_library']   = 'gd2';
+            $config['source_image']    = './uploads/' . $image->file_name;
+            $config['create_thumb']    = TRUE;
+            $config['maintain_ratio']  = TRUE;
+            $config['new_image']       = './uploads/thumb/' . $image->file_name;
+            $config['width']           = $this->input->post('thumb_width');
+            $config['height']          = $this->input->post('thumb_height');
+            $config['thumb_marker']    = '_thumb';
+            // TODO Handle cropping
+            $this->image_lib->initialize($config);
+            $success = $this->image_lib->resize();
+            error_log('hello!: ' . print_r($config, true));
+            $this->image_lib->clear();
+            $config = array();
+          }
+        }
+        
+        redirect('album');
+        return;
+      }
+    }
+    
+    $data['config'] = $this->config_model->get_by_album_id($album_id);
+    $data['album'] = $this->album_model->find_by_id($album_id);
+    
+    $this->load->view('album/config', $data);
   }
   
 }
