@@ -64,16 +64,15 @@ class Auth extends MY_Controller
       $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|xss_clean');
       if ($this->form_validation->run() == TRUE)
       {
-        $query = $this->user_model->get_by_email_address($email_address);
+        $user = $this->user_model->get_by_email_address($email_address);
         // No user found
-        if ($query->num_rows() == 0)
+        if (empty($user))
         {
           $data['error'] = 'No user exists with the supplied email address.';
         }
         else
         {
           // Found user, email them with a link to reset password.
-          $user = $query->row();
           // Create ticket
           $this->load->model('ticket_model');
           $ticket_id = $this->ticket_model->create(array('user_id' => $user->id, 'uuid' => $this->create_uuid()));
@@ -98,13 +97,12 @@ class Auth extends MY_Controller
     $this->load->model('ticket_model', 'ticket_model');
     // Check for ticket
     $ticket = $this->ticket_model->get_by_uuid($uuid);
-    if ($ticket->num_rows() == 0)
+    if (empty($ticket))
     {
       $data['error'] = 'This link has expired.';
     }
     else
     {
-      $ticket = $ticket->row();
       $user = $this->user_model->find_by_id($ticket->user_id);
       $data['uuid'] = $uuid;
 

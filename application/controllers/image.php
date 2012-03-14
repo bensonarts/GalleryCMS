@@ -22,7 +22,7 @@ class Image extends MY_Controller
   {
     // Delete all photos with this album id
     $image = $this->image_model->find_by_id($image_id);
-    if (isset($image))
+    if ( ! empty($image))
     {
       $file_name = $image->path . $image->file_name;
       $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;

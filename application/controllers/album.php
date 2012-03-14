@@ -109,11 +109,10 @@ class Album extends MY_Controller
   public function remove($album_id)
   {
     // Delete all photos with this album id
-    $query = $this->image_model->get_images_by_album_id($album_id);
-    $rs = $query->result();
-    if (isset($rs))
+    $rs = $this->image_model->get_images_by_album_id($album_id);
+    if ( ! empty($rs))
     {
-      foreach($rs as $image) {
+      foreach ($rs as $image) {
         $file_name = $image->path . $image->file_name;
         $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
         if (file_exists($file_name))

@@ -40,7 +40,7 @@ $includes = array(
   ?>
   <?php if (isset($images)): ?>
   <ul id="sortable">
-    <?php foreach ($images->result() as $image): ?>
+    <?php foreach ($images as $image): ?>
     <?php 
     $total_file_size += $image->file_size; 
     $total_images++;

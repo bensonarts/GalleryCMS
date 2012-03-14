@@ -23,7 +23,7 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($users->result() as $user): ?>
+  <?php foreach ($users as $user): ?>
     <tr>
       <td><?php echo $user->email_address; ?></td>
       <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>

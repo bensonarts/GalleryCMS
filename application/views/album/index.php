@@ -18,7 +18,7 @@
     </tr>
   </thead>
   <tbody>
-  <?php foreach ($albums->result() as $album): ?>
+  <?php foreach ($albums as $album): ?>
     <tr>
       <td><?php echo $album->name; ?></td>
       <td><?php echo $album->total_images; ?></td>

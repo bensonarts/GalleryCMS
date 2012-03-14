@@ -38,7 +38,7 @@ class Api extends MY_Controller
        // Insert file information into database
        $now = date('Y-m-d H:i:s');
        $order_num = $this->image_model->get_last_order_num($album_id);
-       if (!isset($order_num))
+       if (empty($order_num))
        {
          $order_num = 0;
        }
@@ -127,12 +127,19 @@ class Api extends MY_Controller
   
   protected function output_json_feed($album_id)
   {
-    
+    $this->load->model('comment_model');
+    $image_data = $this->image_model->get_feed($album_id);
+    foreach ($image_data as $image)
+    {
+      $image->comments = $this->comment_model->get_comments_by_image_id($image->id);
+    }
+    echo json_encode($image_data);
   }
   
   protected function output_xml_feed($album_id)
   {
-    
+    $data['feed'] = json_encode($this->image_model->get_feed($album_id));
+    $this->load->view('feed/xml', $data);
   }
   
 }

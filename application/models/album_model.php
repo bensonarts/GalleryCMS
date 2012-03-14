@@ -16,7 +16,8 @@ class Album_model extends MY_Model
     $this->db->where('created_by', $user_id);
     $this->db->group_by('album.id');
     $q = $this->db->get();
-    return $q;
+    
+    return $q->result();
   }
   
   public function fetch_all()
@@ -26,7 +27,8 @@ class Album_model extends MY_Model
     $this->db->join('image', 'image.album_id = album.id', 'left');
     $this->db->group_by('album.id');
     $q = $this->db->get();
-    return $q;
+    
+    return $q->result();
   }
-
+  
 }

@@ -10,7 +10,9 @@ class Ticket_model extends MY_Model
   
   public function get_by_uuid($uuid)
   {
-    return $this->db->get_where($this->table_name, array('uuid' => $uuid));
+    $q = $this->db->get_where($this->table_name, array('uuid' => $uuid));
+    
+    return $q->row();
   }
 
 }

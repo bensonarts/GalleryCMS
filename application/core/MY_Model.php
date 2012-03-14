@@ -15,7 +15,8 @@ class MY_Model extends CI_Model
    */
   public function fetch_all()
   {
-    return $this->db->get($this->table_name);
+    $q = $this->db->get($this->table_name);
+    return $q->result();
   }
   
   /**
