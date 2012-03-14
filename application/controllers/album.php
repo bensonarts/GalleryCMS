@@ -196,14 +196,12 @@ class Album extends MY_Controller
             $config['source_image']    = './uploads/' . $image->file_name;
             $config['create_thumb']    = TRUE;
             $config['maintain_ratio']  = TRUE;
-            $config['new_image']       = './uploads/thumb/' . $image->file_name;
             $config['width']           = $this->input->post('thumb_width');
             $config['height']          = $this->input->post('thumb_height');
             $config['thumb_marker']    = '_thumb';
             // TODO Handle cropping
             $this->image_lib->initialize($config);
             $success = $this->image_lib->resize();
-            error_log('hello!: ' . print_r($config, true));
             $this->image_lib->clear();
             $config = array();
           }

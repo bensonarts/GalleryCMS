@@ -50,7 +50,7 @@ $includes = array(
       <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
       <div class="image-container">
         <a class="album-images" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
-          <img src="<?php echo base_url() . 'uploads/thumb/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+          <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
       <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">
@@ -144,7 +144,7 @@ $(document).ready(function() {
           if (response === 'success') {
             var file_name = fileObj.name.substr(0, fileObj.name.lastIndexOf('.'));
             var file_ext = fileObj.name.split('.').pop();
-            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/thumb/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
+            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
             $('#new-image-list').append(new_image);
           } else {
             var fail_message = '<li>Thumbnail creation failed for: ' + fileObj.name + '</li>';

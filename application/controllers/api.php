@@ -79,7 +79,6 @@ class Api extends MY_Controller
     $config['source_image']    = './uploads/' . $filename;
     $config['create_thumb']    = TRUE;
     $config['maintain_ratio']  = TRUE;
-    $config['new_image']       = './uploads/thumb/' . $filename;
     $config['width']           = $album_config->thumb_width;
     $config['height']          = $album_config->thumb_height;
     // TODO Handle cropping.
