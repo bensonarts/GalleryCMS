@@ -1,5 +1,7 @@
 <?php
-$includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js', 'jquery.uploadify.v2.1.4.min.js'), 'css' => array('uploadify.css'));
+$includes = array(
+    'js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js', 'jquery.uploadify.v2.1.4.min.js', 'fancybox/jquery.fancybox-1.3.4.pack.js'), 
+    'css' => array('uploadify.css', 'fancybox/jquery.fancybox-1.3.4.css'));
 ?>
 <?php $this->load->view('inc/header', $includes); ?>
 
@@ -32,6 +34,7 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
   <?php 
   $total_file_size = 0;
   $total_images = 0;
+  $img_url = '';
   ?>
   <?php if (isset($images)): ?>
   <ul id="sortable">
@@ -39,11 +42,14 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
     <?php 
     $total_file_size += $image->file_size; 
     $total_images++;
+    $img_url = base_url() . 'uploads/' . $image->name;
     ?>
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default">
       <div class="drag-handle"></div>
       <div class="image-container">
-        <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+        <a class="album-images" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
+          <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+        </a>
       </div>
       <div class="info">
         File name: <?php echo $image->name; ?><br />
@@ -83,6 +89,8 @@ $includes = array('js' => array('jquery-ui-1.8.18.custom.min.js', 'swfobject.js'
 $(document).ready(function() {
   $('#upload-btn').hide();
   $('#new-images').hide();
+  
+  $('a.album-images').fancybox();
   
   $("#sortable").sortable({
     handle : '.drag-handle',
