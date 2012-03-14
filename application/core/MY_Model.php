@@ -2,40 +2,67 @@
 
 class MY_Model extends CI_Model
 {
-  public $tableName;
+  public $table_name;
 
   public function __construct()
   {
     parent::__construct();
   }
   
+  /**
+   *
+   * @return type 
+   */
   public function fetch_all()
   {
-    return $this->db->get($this->tableName);
+    return $this->db->get($this->table_name);
   }
   
+  /**
+   *
+   * @param type $id
+   * @return type 
+   */
   public function find_by_id($id)
   {
-    $q = $this->db->get_where($this->tableName, array('id' => $id));
+    $q = $this->db->get_where($this->table_name, array('id' => $id));
     return $q->row();
   }
   
+  /**
+   *
+   * @param array $data
+   * @return type 
+   */
   public function create(array $data)
   {
-    $this->db->insert($this->tableName, $data);
+    $this->db->insert($this->table_name, $data);
     return $this->db->insert_id();
   }
   
+  /**
+   *
+   * @param array $data
+   * @param type $id 
+   */
   public function update(array $data, $id)
   {
-    $this->db->update($this->tableName, $data, array('id' => $id));
+    $this->db->update($this->table_name, $data, array('id' => $id));
   }
   
+  /**
+   *
+   * @param type $id 
+   */
   public function delete($id)
   {
-    $this->db->delete($this->tableName, array('id' => $id)); 
+    $this->db->delete($this->table_name, array('id' => $id)); 
   }
   
+  /**
+   *
+   * @return type 
+   */
   protected function create_uuid()
   {
     $uuid_query = $this->db->query('SELECT UUID()');

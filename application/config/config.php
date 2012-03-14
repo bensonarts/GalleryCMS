@@ -17,6 +17,10 @@
 $config['base_url']	= 'http://dev-gallerycms.com/';
 
 /*
+ * Page title that appears in the browser's title bar.
+ */
+$config['site_title']   = 'GalleryCMS';
+/*
 |--------------------------------------------------------------------------
 | Index File
 |--------------------------------------------------------------------------

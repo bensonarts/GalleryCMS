@@ -18,7 +18,7 @@
 <?php foreach ($albums->result() as $album): ?>
   <tr>
     <td><?php echo $album->name; ?></td>
-    <td>999</td>
+    <td><?php echo $album->total_images; ?></td>
     <td>
       <div class="btn-group">
         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Test</title>
+  <title><?php echo $this->config->item('site_title'); ?></title>
   <link rel="stylesheet" href="/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
   <?php if (isset($css)): ?>

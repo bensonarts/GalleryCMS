@@ -31,7 +31,7 @@
       echo date('M j, Y', strtotime($user->last_logged_in));
     endif;
     ?></td>
-    <td>??</td>
+    <td><?php echo $user->total_albums; ?></td>
     <td><?php echo $user->last_ip; ?></td>
     <td>
       <div class="btn-group">

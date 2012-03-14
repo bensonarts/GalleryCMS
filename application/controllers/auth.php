@@ -5,12 +5,13 @@ if (!defined('BASEPATH'))
 
 class Auth extends MY_Controller
 {
+
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('user_model', 'User_Model');
+    $this->load->model('user_model');
   }
-  
+
   public function index()
   {
     $this->load->helper('form');
@@ -26,15 +27,15 @@ class Auth extends MY_Controller
     // Authenticate user.
     $this->load->helper('form');
     $userData = array('email_address' => $this->input->post('email_address'), 'password' => $this->input->post('password'));
-    $user_id = $this->User_Model->authenticate($userData);
+    $user_id = $this->user_model->authenticate($userData);
     if ($user_id > 0)
     {
-      // Create session var, session cookie
-      $user = $this->User_Model->find_by_id($user_id);
+      // Create session var
+      $user = $this->user_model->find_by_id($user_id);
       $this->create_login_session($user);
-      
+
       $this->session->set_flashdata('flash_message', 'You are logged in.');
-      
+
       redirect('album');
     }
     else
@@ -47,10 +48,9 @@ class Auth extends MY_Controller
   public function logout()
   {
     $this->session->sess_destroy();
-    //delete_cookie('gallerycms_login');
     redirect('auth');
   }
-  
+
   public function forgotpassword()
   {
     $this->load->helper('form');
@@ -64,7 +64,7 @@ class Auth extends MY_Controller
       $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|xss_clean');
       if ($this->form_validation->run() == TRUE)
       {
-        $query = $this->User_Model->get_by_email_address($email_address);
+        $query = $this->user_model->get_by_email_address($email_address);
         // No user found
         if ($query->num_rows() == 0)
         {
@@ -74,18 +74,18 @@ class Auth extends MY_Controller
         {
           // Found user, email them with a link to reset password.
           $user = $query->row();
-        	// Create ticket
-        	$this->load->model('ticket_model', 'Ticket_Model');
-          $ticket_id = $this->Ticket_Model->create(array('user_id' => $user->id, 'uuid' => $this->create_uuid()));
-          $ticket = $this->Ticket_Model->find_by_id($ticket_id);
-        	// Send email
-        	// TODO Get this from config
-        	$subject = 'GalleryCMS - Forgot Password';
+          // Create ticket
+          $this->load->model('ticket_model');
+          $ticket_id = $this->ticket_model->create(array('user_id' => $user->id, 'uuid' => $this->create_uuid()));
+          $ticket = $this->ticket_model->find_by_id($ticket_id);
+          // Send email
+          // TODO Get this from config
+          $subject = 'GalleryCMS - Forgot Password';
           $reset_pw_url = base_url('auth/resetpassword/' . $ticket->uuid);
           $message = "You have requested to reset your password.\r\n Click the following link to reset your password: $reset_pw_url";
           $this->send_mail($user->email_address, $subject, $message);
-        	// Show to success page
-        	$this->load->view('auth/forgot_password_success');
+          // Show to success page
+          $this->load->view('auth/forgot_password_success');
           return;
         }
       }
@@ -95,9 +95,9 @@ class Auth extends MY_Controller
 
   public function resetpassword($uuid)
   {
-    $this->load->model('ticket_model', 'Ticket_Model');
+    $this->load->model('ticket_model', 'ticket_model');
     // Check for ticket
-    $ticket = $this->Ticket_Model->get_by_uuid($uuid);
+    $ticket = $this->ticket_model->get_by_uuid($uuid);
     if ($ticket->num_rows() == 0)
     {
       $data['error'] = 'This link has expired.';
@@ -105,9 +105,9 @@ class Auth extends MY_Controller
     else
     {
       $ticket = $ticket->row();
-      $user = $this->User_Model->find_by_id($ticket->user_id);
+      $user = $this->user_model->find_by_id($ticket->user_id);
       $data['uuid'] = $uuid;
-      
+
       $new_password = $this->input->post('password');
       if (isset($new_password))
       {
@@ -118,11 +118,11 @@ class Auth extends MY_Controller
         if ($this->form_validation->run() == TRUE)
         {
           // Save new password
-          $this->User_Model->update_password($this->input->post('password'), $user->id);
+          $this->user_model->update_password($this->input->post('password'), $user->id);
           // Delete ticket
-          $this->Ticket_Model->delete($ticket->id);
+          $this->ticket_model->delete($ticket->id);
           // Authenticate user
-          $user_id = $this->User_Model->authenticate(array('email_address' => $user->email_address, 'password' => $new_password));
+          $user_id = $this->user_model->authenticate(array('email_address' => $user->email_address, 'password' => $new_password));
           if ($user_id > 0)
           {
             $this->create_login_session($user);
@@ -134,22 +134,17 @@ class Auth extends MY_Controller
     }
     $this->load->view('auth/reset_password', $data);
   }
-  
+
   protected function create_login_session($user)
   {
     $session_data = array(
-      'email_address' => $user->email_address,
-      'user_id' => $user->id,
-      'logged_in' => TRUE,
-      'is_admin' => $user->is_admin,
-      'ip' => $this->input->ip_address()
+        'email_address' => $user->email_address,
+        'user_id' => $user->id,
+        'logged_in' => TRUE,
+        'is_admin' => $user->is_admin,
+        'ip' => $this->input->ip_address()
     );
     $this->session->set_userdata($session_data);
-
-    $this->load->helper('cookie');
-    /** @todo Create cookie vars */
-    $cookie_data = array('name' => 'gallerycms_login', 'value' => 1, 'expire' => -1, 'domain' => 'dev-gallerycms.com', 'path' => '/', 'prefix' => 'gcms_');
-    $this->input->set_cookie($cookie_data);
   }
 
   private function _is_logged_in()

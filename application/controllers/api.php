@@ -8,7 +8,7 @@ class Api extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('image_model', 'Image_Model');
+    $this->load->model('image_model');
   }
   public function upload($album_id)
   {
@@ -32,7 +32,7 @@ class Api extends MY_Controller
 
        // Insert file information into database
        $now = date('Y-m-d H:i:s');
-       $order_num = $this->Image_Model->get_last_order_num($album_id);
+       $order_num = $this->image_model->get_last_order_num($album_id);
        if (!isset($order_num))
        {
          $order_num = 0;
@@ -55,7 +55,7 @@ class Api extends MY_Controller
         'created_at'     => $now,
         'created_by'     => $this->input->post('user_id')
        );
-       $this->Image_Model->create($image_data);
+       $this->image_model->create($image_data);
     }
     
     echo $upload_info['file_name'];
@@ -86,7 +86,7 @@ class Api extends MY_Controller
     // Reorder images with incoming AJAX request
     foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
     {
-      $this->Image_Model->reorder($image_id, $position + 1);
+      $this->image_model->reorder($image_id, $position + 1);
     }
     echo 'success';
   }

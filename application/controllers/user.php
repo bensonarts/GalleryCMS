@@ -14,13 +14,13 @@ class User extends MY_Controller
     }
     else
     {
-      $this->load->model('user_model', 'User_Model');
+      $this->load->model('user_model');
     }
   }
   
   public function index()
   {
-    $data['users'] = $this->User_Model->fetch_all();
+    $data['users'] = $this->user_model->fetch_all();
     $flash_login_success = $this->session->flashdata('flash_message'); 
     if (isset($flash_login_success) && strlen($flash_login_success) > 0)
     {
@@ -60,7 +60,7 @@ class User extends MY_Controller
                    'is_admin' => $this->input->post('is_admin'),
                    'created_at' => $now,
                    'updated_at' => $now);
-      $this->User_Model->create($user_data);
+      $this->user_model->create($user_data);
       $this->session->set_flashdata('flash_message', "User successfully created.");
       redirect('user/index');
     }
@@ -69,7 +69,7 @@ class User extends MY_Controller
   public function edit($user_id)
   {
     $this->load->helper('form');
-    $data['user'] = $this->User_Model->find_by_id($user_id);
+    $data['user'] = $this->user_model->find_by_id($user_id);
     $this->load->view('user/edit', $data);
   }
   
@@ -77,7 +77,7 @@ class User extends MY_Controller
   {
     // Validate form.
     $this->load->helper('form');
-    $user = $this->User_Model->find_by_id($user_id);
+    $user = $this->user_model->find_by_id($user_id);
     $data['user'] = $user;
     $this->load->library('form_validation');
     $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
@@ -109,7 +109,7 @@ class User extends MY_Controller
       {
         $user_data['password'] = $password;
       }
-      $this->User_Model->update($user_data, $user_id);
+      $this->user_model->update($user_data, $user_id);
       $this->session->set_flashdata('flash_message', "User successfully updated.");
       redirect("user");
     }
@@ -119,7 +119,7 @@ class User extends MY_Controller
   {
     // TODO Implement functionality.
     // TODO Unpublish user's images and albums
-    $this->User_Model->update(array('is_active' => 0), $user_id);
+    $this->user_model->update(array('is_active' => 0), $user_id);
     $this->session->set_flashdata('flash_message', "User has been deactivated.");
     redirect("user");
   }
@@ -128,7 +128,7 @@ class User extends MY_Controller
   {
     // TODO Implement functionality.
     // TODO Remove user's images and albums
-    $this->User_Model->delete($user_id);
+    $this->user_model->delete($user_id);
     $this->session->set_flashdata('flash_message', "User has been deleted.");
     redirect("user");
   }

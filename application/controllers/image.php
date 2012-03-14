@@ -14,14 +14,14 @@ class Image extends MY_Controller
     }
     else
     {
-      $this->load->model('image_model', 'Image_Model');
+      $this->load->model('image_model');
     }
   }
   
   public function remove($album_id, $image_id)
   {
     // Delete all photos with this album id
-    $image = $this->Image_Model->find_by_id($image_id);
+    $image = $this->image_model->find_by_id($image_id);
     if (isset($image))
     {
       $file_name = $image->path . $image->file_name;
@@ -36,7 +36,7 @@ class Image extends MY_Controller
       }
     }
     // Delete image records
-    $this->Image_Model->delete($image_id);
+    $this->image_model->delete($image_id);
     // Delete album record
     $this->session->set_flashdata('flash_message', "Successfully deleted image.");
     redirect("album/images/$album_id");
