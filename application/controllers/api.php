@@ -10,6 +10,11 @@ class Api extends MY_Controller
     parent::__construct();
     $this->load->model('image_model');
   }
+  
+  /**
+   *
+   * @param type $album_id 
+   */
   public function upload($album_id)
   {
     $config['upload_path'] = './uploads/';
@@ -60,7 +65,11 @@ class Api extends MY_Controller
     
     echo $upload_info['file_name'];
   }
-
+  
+  /**
+   *
+   * @param type $filename 
+   */
   public function resize($filename)
   {
     $config['image_library']   = 'gd2';
@@ -81,6 +90,9 @@ class Api extends MY_Controller
     }
   }
   
+  /**
+   * 
+   */
   public function reorder()
   {
     // Reorder images with incoming AJAX request
@@ -90,5 +102,38 @@ class Api extends MY_Controller
     }
     echo 'success';
   }
+  
+  /**
+   *
+   * @param type $type
+   * @param type $album_id
+   * @throws Exception 
+   */
+  public function feed($type, $album_id)
+  {
+    switch (strtolower($type))
+    {
+      case 'json':
+        $this->output_json_feed($album_id);
+        break;
+      case 'xml':
+        $this->output_xml_feed($album_id);
+        break;
+      default:
+        throw new Exception('This option is not supported.');
+        break;
+    }
+  }
+  
+  protected function output_json_feed($album_id)
+  {
+    
+  }
+  
+  protected function output_xml_feed($album_id)
+  {
+    
+  }
+  
 }
   

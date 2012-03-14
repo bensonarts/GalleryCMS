@@ -8,4 +8,4 @@
 
 <p><a href="<?php echo site_url('auth'); ?>">Login</a></p>
 
-<?php $this->load->view('inc/footer'); ?>
+<?php $this->load->view('inc/footer_guest'); ?>

@@ -10,47 +10,51 @@
 
 <?php if (isset($users)): ?>
 <table class="table table-striped table-bordered">
-  <tr>
-    <th>Email address</th>
-    <th>Is admin</th>
-    <th>Is activated</th>
-    <th>Created</th>
-    <th>Last logged in</th>
-    <th># of albums</th>
-    <th>Last IP</th>
-    <th><a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a></th>
-  </tr>
-<?php foreach ($users->result() as $user): ?>
-  <tr>
-    <td><?php echo $user->email_address; ?></td>
-    <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>
-    <td><?php echo (($user->is_admin == 1) ? 'Yes' : 'No'); ?></td>
-    <td><?php echo date('M j, Y', strtotime($user->created_at)); ?></td>
-    <td><?php
-    if (isset($user->last_logged_in)):
-      echo date('M j, Y', strtotime($user->last_logged_in));
-    endif;
-    ?></td>
-    <td><?php echo $user->total_albums; ?></td>
-    <td><?php echo $user->last_ip; ?></td>
-    <td>
-      <div class="btn-group">
-        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-          Action
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu">
-          <li><a href="<?php echo site_url("user/edit/$user->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
-          <?php if ($user_id != $user->id): ?>
-          <li><a href="<?php echo site_url("user/deactivate/$user->id"); ?>"><i class="icon-ban-circle"></i> Deactivate</a></li>
-          <li><a class="user-delete-btn" href="#user-modal" data-toggle="modal" rel="<?php echo site_url("user/remove/$user->id"); ?>">
-              <i class="icon-trash"></i> Delete</a></li>
-          <?php endif; ?>
-        </ul>
-      </div>
-    </td>
-  </tr>
-<?php endforeach; ?>
+  <thead>
+    <tr>
+      <th>Email address</th>
+      <th>Is admin</th>
+      <th>Is activated</th>
+      <th>Created</th>
+      <th>Last logged in</th>
+      <th># of albums</th>
+      <th>Last IP</th>
+      <th><a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a></th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php foreach ($users->result() as $user): ?>
+    <tr>
+      <td><?php echo $user->email_address; ?></td>
+      <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>
+      <td><?php echo (($user->is_admin == 1) ? 'Yes' : 'No'); ?></td>
+      <td><?php echo date('M j, Y', strtotime($user->created_at)); ?></td>
+      <td><?php
+      if (isset($user->last_logged_in)):
+        echo date('M j, Y', strtotime($user->last_logged_in));
+      endif;
+      ?></td>
+      <td><?php echo $user->total_albums; ?></td>
+      <td><?php echo $user->last_ip; ?></td>
+      <td>
+        <div class="btn-group">
+          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+            Action
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="<?php echo site_url("user/edit/$user->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
+            <?php if ($user_id != $user->id): ?>
+            <li><a href="<?php echo site_url("user/deactivate/$user->id"); ?>"><i class="icon-ban-circle"></i> Deactivate</a></li>
+            <li><a class="user-delete-btn" href="#user-modal" data-toggle="modal" rel="<?php echo site_url("user/remove/$user->id"); ?>">
+                <i class="icon-trash"></i> Delete</a></li>
+            <?php endif; ?>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  <?php endforeach; ?>
+  </tbody>
 </table>
 <?php endif; ?>
 

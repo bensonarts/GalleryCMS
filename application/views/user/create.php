@@ -1,6 +1,8 @@
 <?php $this->load->view('inc/header'); ?>
 
 <h1>Create User</h1>
+
+<div class="well">
 <?php
 echo form_open('user/add');
 
@@ -32,5 +34,6 @@ echo form_button(array('id' => 'submit', 'value' => 'Add', 'name' => 'submit', '
 <?php
 echo form_close();
 ?>
+</div>
 
 <?php $this->load->view('inc/footer'); ?>

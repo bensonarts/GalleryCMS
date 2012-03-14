@@ -14,6 +14,7 @@ body { padding-top: 60px; padding-bottom: 40px; }
     #sortable li div.btn-group { position: absolute; top: 0; right: 0; }
 
 .sidebar-nav { padding: 9px 0; }
+.login { width: 250px; margin: 0 auto; }
 
 .w100 { width: 100%; }
 .w90 { width: 90%; }

@@ -18,7 +18,7 @@ class Auth extends MY_Controller
     $this->load->view('auth/index');
     if ($this->_is_logged_in() == TRUE)
     {
-      redirect('user');
+      redirect('album');
     }
   }
 

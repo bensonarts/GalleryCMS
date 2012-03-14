@@ -30,6 +30,8 @@ $includes = array(
   <h3>XML feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>"><?php echo site_url("api/feed/xml/$album->id"); ?></a></pre></h3>
 </div>
 
+<div id="reorder-feedback" class="alert alert-success" style="display: none;"></div>
+
 <span class="left w75">
   <?php 
   $total_file_size = 0;
@@ -100,8 +102,9 @@ $(document).ready(function() {
         url          : '<?php echo base_url(); ?>index.php/api/reorder?' + order,
         type         : 'GET',
         cache        : false,
-        success      : function(reponse) {
-          // alert(response); TODO Show success
+        success      : function(response) {
+          $('#reorder-feedback').show();
+          $('#reorder-feedback').html('<a class="close" data-dismiss="alert">x</a><strong>Changed image order successfully.</strong>');
         },
         error        : function(jqXHR, textStatus, errorThrown) {
           alert('An error occured when ordering the images.');

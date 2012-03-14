@@ -1,6 +1,8 @@
 <?php $this->load->view('inc/header'); ?>
 
 <h1>Edit Album</h1>
+
+<div class="well">
 <?php
 echo form_open("album/update/$album->id");
 
@@ -18,5 +20,6 @@ echo form_button(array('id' => 'submit', 'value' => 'Update', 'name' => 'submit'
 <?php
 echo form_close();
 ?>
+</div>
 
 <?php $this->load->view('inc/footer'); ?>
