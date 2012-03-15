@@ -49,7 +49,7 @@ $includes = array(
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 6; ?>px">
       <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
       <div class="image-container">
-        <a class="album-images" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
+        <a class="album-images img-fancy" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
           <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
@@ -60,9 +60,9 @@ $includes = array(
         File size: <?php echo $image->file_size; ?> KB
       </div>
       <div class="btn-group">
-        <a href="<?php echo site_url("image/view/$image->id"); ?>" class="btn" title="View"><i class="icon-zoom-in"></i></a>
+        <a href="<?php echo $img_url; ?>" class="btn img-fancy" title="<?php echo $image->caption; ?>"><i class="icon-zoom-in"></i></a>
         <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download"></i></a>
-        <a href="<?php echo site_url("image/edit/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
+        <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
         <a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
         <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
         <a href="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" class="btn btn-danger" title="Delete"
@@ -93,7 +93,7 @@ $(document).ready(function() {
   $('#upload-btn').hide();
   $('#new-images').hide();
   
-  $('a.album-images').fancybox();
+  $('a.img-fancy').fancybox();
   
   $("#sortable").sortable({
     handle : '.drag-handle',

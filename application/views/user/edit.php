@@ -20,10 +20,10 @@ echo form_error('password_conf');
 echo form_label('Re-type password', 'password_conf');
 echo form_password('password_conf');
 
-echo form_label('Is active?', 'is_active');
+echo form_label('Active', 'is_active');
 echo form_checkbox('is_active', '1', $user->is_active);
 
-echo form_label('Is admin?', 'is_admin');
+echo form_label('Admin', 'is_admin');
 echo form_checkbox('is_admin', '1', $user->is_admin);
 
 echo form_fieldset_close(); 

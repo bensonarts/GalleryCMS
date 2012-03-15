@@ -133,6 +133,7 @@ class Api extends MY_Controller
   
   protected function output_json_feed($album_id)
   {
+    header('Content-Type: text/javascript; charset=utf8');
     $this->load->model('comment_model');
     $image_data = $this->image_model->get_feed($album_id);
     foreach ($image_data as $image)
@@ -144,6 +145,7 @@ class Api extends MY_Controller
   
   protected function output_xml_feed($album_id)
   {
+    header("Content-Type: application/xhtml+xml; charset=utf-8");
     $data['feed'] = json_encode($this->image_model->get_feed($album_id));
     $this->load->view('feed/xml', $data);
   }

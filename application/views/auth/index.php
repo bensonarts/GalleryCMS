@@ -11,7 +11,7 @@
           echo '<div class="alert alert-error"><strong>' . $login_error . '</strong></div>';
   }
   echo form_label('Email Address', 'email_address');
-  echo form_input('email_address');
+  echo form_input('email_address', $email);
 
   echo form_label('Password', 'password');
   echo form_password('password');

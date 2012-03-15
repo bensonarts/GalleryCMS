@@ -18,6 +18,125 @@ class Image extends MY_Controller
     }
   }
   
+  public function edit($album_id, $image_id)
+  {
+    $this->load->helper('form');
+    $this->load->model('album_model');
+    $this->load->model('config_model');
+    $album = $this->album_model->find_by_id($album_id);
+    $album_config = $this->config_model->get_by_album_id($album_id);
+    $image = $this->image_model->find_by_id($image_id);
+    
+    if ($this->is_method_post() == TRUE)
+    {
+      if (! empty($_FILES['file']['tmp_name']))
+      {
+        // Delete old image
+        $old_file = $image->path . $image->file_name;
+        $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
+        if (file_exists($old_file))
+        {
+          unlink($old_file);
+        }
+        if (file_exists($thumbnail_name))
+        {
+          unlink($thumbnail_name);
+        }
+        
+        // Upload file if image has been selected.
+        $config['upload_path']    = './uploads/';
+        $config['allowed_types']  = 'gif|jpg|png';
+        $config['max_size']       = '2048'; // 2MB
+        $config['overwrite']      = TRUE;
+        $config['remove_spaces']  = TRUE;
+        $config['encrypt_name']   = FALSE;
+        $config['overwrite']      = FALSE;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload('file'))
+        {
+          $error = array('error' => $this->upload->display_errors());
+          $this->load->view('image/edit', $error);
+        }
+        else
+        {
+          $upload_info = $this->upload->data();
+          
+          // Create thumbnail
+          $config['image_library']   = 'gd2';
+          $config['source_image']    = './uploads/' . $upload_info['file_name'];
+          $config['create_thumb']    = TRUE;
+          $config['maintain_ratio']  = TRUE;
+          $config['width']           = $album_config->thumb_width;
+          $config['height']          = $album_config->thumb_height;
+          // TODO Handle cropping.
+
+          $this->load->library('image_lib', $config); 
+
+          $this->image_lib->resize();
+          $this->image_lib->clear();
+          
+          // Update record
+          $now = date('Y-m-d H:i:s');
+          $image_data = array(
+            'name'           => $this->input->post('name'),
+            'caption'        => $this->input->post('caption'),
+            'raw_name'       => $upload_info['raw_name'],
+            'file_type'      => $upload_info['file_type'],
+            'file_name'      => $upload_info['file_name'],
+            'file_ext'       => $upload_info['file_ext'],
+            'file_size'      => $upload_info['file_size'],
+            'path'           => $config['upload_path'],
+            'full_path'      => $upload_info['full_path'],
+            'published'      => $this->input->post('published'),
+            'updated_at'     => $now,
+            'updated_by'     => $this->input->post('user_id')
+          );
+          $this->image_model->update($image_data, $image_id);
+          
+          redirect('album/images/' . $album->id);
+          return;
+        }
+      }
+      else
+      {
+        // Update record
+        $now = date('Y-m-d H:i:s');
+        $image_data = array(
+            'name'           => $this->input->post('name'),
+            'caption'        => $this->input->post('caption'),
+            'published'      => $this->input->post('published'),
+            'updated_at'     => $now,
+            'updated_by'     => $this->input->post('user_id')
+          );
+        $this->image_model->update($image_data, $image_id);
+          
+        redirect('album/images/' . $album->id);
+        return;
+      }
+    }
+    
+    $data['image'] = $image;
+    $data['album'] = $album;
+    $this->load->view('image/edit', $data);
+  }
+  
+  public function download($image_id)
+  {
+    $image = $this->image_model->find_by_id($image_id);
+    if ( ! empty($image))
+    {
+      header('Content-Type: ' . $image->file_type);
+      header('Content-Length: ' . ($image->file_size * 1024)); // KB -> B
+      header('Content-Disposition: attachment; filename="' . $image->file_name . '"');
+      $open = fopen($image->path . $image->file_name, 'r');
+      fpassthru($open);
+      fclose($open);
+    }
+    echo 'image not found';
+  }
+  
   public function remove($album_id, $image_id)
   {
     // Delete all photos with this album id

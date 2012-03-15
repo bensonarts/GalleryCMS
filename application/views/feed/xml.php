@@ -1,0 +1,28 @@
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL; ?>
+<album>
+  <title></title>
+  <thumbWidth></thumbwidth>
+  <thumbHeight></thumbheight>
+  <categories>
+    <category>
+      <name></name>
+      <images>
+        <image>
+          <title></title>
+          <caption></caption>
+          <fileName></filename>
+          <path></path>
+          <comments>
+            <comment>
+              <poster></poster>
+              <message></message>
+            </comment>
+          </comments>
+          <tags>
+            <tag></tag>
+          </tags>
+        </image>
+      </images>
+    </category>
+  </categories>
+</album>

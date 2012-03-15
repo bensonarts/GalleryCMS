@@ -51,4 +51,9 @@ class MY_Controller extends CI_Controller
     $this->email->send();
   }
   
+  protected function is_method_post()
+  {
+    return $_SERVER['REQUEST_METHOD'] == 'POST';
+  }
+  
 }

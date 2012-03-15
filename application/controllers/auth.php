@@ -15,7 +15,8 @@ class Auth extends MY_Controller
   public function index()
   {
     $this->load->helper('form');
-    $this->load->view('auth/index');
+    $data['email'] = '';
+    $this->load->view('auth/index', $data);
     if ($this->_is_logged_in() == TRUE)
     {
       redirect('album');
@@ -41,6 +42,7 @@ class Auth extends MY_Controller
     else
     {
       $data['login_error'] = 'Incorrect login';
+      $data['email'] = $this->input->post('email_address');
       $this->load->view('auth/index', $data);
     }
   }
