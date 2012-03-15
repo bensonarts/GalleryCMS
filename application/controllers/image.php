@@ -27,22 +27,13 @@ class Image extends MY_Controller
     $album_config = $this->config_model->get_by_album_id($album_id);
     $image = $this->image_model->find_by_id($image_id);
     
+    $data['image'] = $image;
+    $data['album'] = $album;
+    
     if ($this->is_method_post() == TRUE)
     {
       if (! empty($_FILES['file']['tmp_name']))
       {
-        // Delete old image
-        $old_file = $image->path . $image->file_name;
-        $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
-        if (file_exists($old_file))
-        {
-          unlink($old_file);
-        }
-        if (file_exists($thumbnail_name))
-        {
-          unlink($thumbnail_name);
-        }
-        
         // Upload file if image has been selected.
         $config['upload_path']    = './uploads/';
         $config['allowed_types']  = 'gif|jpg|png';
@@ -56,11 +47,25 @@ class Image extends MY_Controller
 
         if ( ! $this->upload->do_upload('file'))
         {
-          $error = array('error' => $this->upload->display_errors());
-          $this->load->view('image/edit', $error);
+          $error = $this->upload->display_errors();
+          $data['error'] = $error;
+          $this->load->view('image/edit', $data);
+          return;
         }
         else
         {
+          // Delete old image
+          $old_file = $image->path . $image->file_name;
+          $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
+          if (file_exists($old_file))
+          {
+            unlink($old_file);
+          }
+          if (file_exists($thumbnail_name))
+          {
+            unlink($thumbnail_name);
+          }
+          
           $upload_info = $this->upload->data();
           
           // Create thumbnail
@@ -121,8 +126,6 @@ class Image extends MY_Controller
       }
     }
     
-    $data['image'] = $image;
-    $data['album'] = $album;
     $this->load->view('image/edit', $data);
   }
   

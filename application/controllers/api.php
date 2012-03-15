@@ -56,7 +56,7 @@ class Api extends MY_Controller
         'file_size'      => $upload_info['file_size'],
         'path'           => $config['upload_path'],
         'full_path'      => $upload_info['full_path'],
-        'published'      => 0,
+        'published'      => 1,
         'created_at'     => $now,
         'created_by'     => $this->input->post('user_id')
        );

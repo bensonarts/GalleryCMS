@@ -13,7 +13,7 @@ if (isset($error)) {
 echo form_fieldset('Image Information');
 ?>
   <div><img src="<?php echo base_url() . 'uploads/' . $image->file_name; ?>" alt="<?php echo $image->name; ?>" /></div>
-  <div class="alert alert-info">Leave this blank to keep the original image.</div>
+  <div class="alert alert-info">Leave this blank to keep the original image. 2MB File size limit.</div>
 <?php
 echo form_error('file');
 echo form_label('File', 'file');
