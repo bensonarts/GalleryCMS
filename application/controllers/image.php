@@ -95,6 +95,8 @@ class Image extends MY_Controller
           );
           $this->image_model->update($image_data, $image_id);
           
+          $this->session->set_flashdata('flash_message', "Successfully updated image.");
+          
           redirect('album/images/' . $album->id);
           return;
         }
@@ -111,7 +113,9 @@ class Image extends MY_Controller
             'updated_by'     => $this->input->post('user_id')
           );
         $this->image_model->update($image_data, $image_id);
-          
+        
+        $this->session->set_flashdata('flash_message', "Successfully updated image.");
+        
         redirect('album/images/' . $album->id);
         return;
       }
