@@ -63,8 +63,8 @@ $includes = array(
         <a href="<?php echo $img_url; ?>" class="btn img-fancy" title="<?php echo $image->caption; ?>"><i class="icon-zoom-in"></i></a>
         <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download"></i></a>
         <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
-        <a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
-        <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
+        <?php /*<a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
+        <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a> */ ?>
         <a href="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" class="btn btn-danger" title="Delete"
            onclick="confirm('Are you sure you wish to delete this image?')"><i class="icon-remove icon-white"></i></a>
       </div>

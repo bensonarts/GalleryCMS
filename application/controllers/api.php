@@ -131,22 +131,34 @@ class Api extends MY_Controller
     }
   }
   
-  protected function output_json_feed($album_id)
+  protected function get_feed($album_id)
   {
-    header('Content-Type: text/javascript; charset=utf8');
+    $this->load->model('album_model');
     $this->load->model('comment_model');
+    $album = $this->album_model->find_by_id($album_id);
     $image_data = $this->image_model->get_feed($album_id);
     foreach ($image_data as $image)
     {
       $image->comments = $this->comment_model->get_comments_by_image_id($image->id);
+      $image->url = base_url() . 'uploads/' . $image->file_name;
     }
-    echo json_encode($image_data);
+    $album->images = $image_data;
+    
+    return $album;
+  }
+  
+  protected function output_json_feed($album_id)
+  {
+    header('Content-Type: text/javascript; charset=utf8');
+    
+    echo json_encode($this->get_feed($album_id));
   }
   
   protected function output_xml_feed($album_id)
   {
     header("Content-Type: application/xhtml+xml; charset=utf-8");
-    $data['feed'] = json_encode($this->image_model->get_feed($album_id));
+    $data['album'] = $this->get_feed($album_id);
+    
     $this->load->view('feed/xml', $data);
   }
   

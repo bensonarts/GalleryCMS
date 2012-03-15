@@ -32,7 +32,7 @@ class Image extends MY_Controller
     
     if ($this->is_method_post() == TRUE)
     {
-      if (! empty($_FILES['file']['tmp_name']))
+      if ( ! empty($_FILES['file']['tmp_name']))
       {
         // Upload file if image has been selected.
         $config['upload_path']    = './uploads/';
@@ -96,7 +96,7 @@ class Image extends MY_Controller
             'full_path'      => $upload_info['full_path'],
             'published'      => $this->input->post('published'),
             'updated_at'     => $now,
-            'updated_by'     => $this->input->post('user_id')
+            'updated_by'     => $this->get_user_id()
           );
           $this->image_model->update($image_data, $image_id);
           
