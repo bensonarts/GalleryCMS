@@ -21,20 +21,37 @@ class Album extends MY_Controller
   
   public function index()
   {
+    $uri = $this->uri->segment(3);
+    $offset = ( ! empty($uri) && is_numeric($uri)) ? $uri : 0;
+    $per_page = 10;
+    
     if ($this->is_admin() === TRUE)
     {
-      $data['albums'] = $this->album_model->fetch_all();
+      $data = $this->album_model->paginate($per_page, $offset);
+      $total = count($this->album_model->fetch_all());
+      $data['albums'] = $data;
     }
     else
     {
-      $data['albums'] = $this->album_model->fetch_by_user_id($this->get_user_id());
+      $data = $this->album_model->paginate_by_user_id($this->get_user_id(), $per_page, $offset);
+      $total = count($this->album_model->fetch_by_user_id($this->get_user_id()));
+      $data['albums'] = $data;
     }
+    
+    $this->load->library('pagination');
+    $config['base_url'] = site_url('album/index');
+    $config['total_rows'] = $total;
+    $config['per_page'] = $per_page;
+    $this->pagination->initialize($config);
+    
+    
     $flash_login_success = $this->session->flashdata('flash_message'); 
+    
     if (isset($flash_login_success) && ! empty($flash_login_success))
     {
       $data['flash'] = $flash_login_success;
     }
-    // TODO Get image count for each album.
+    
     $this->load->view('album/index', $data);
   }
   

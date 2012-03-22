@@ -22,4 +22,10 @@ echo form_close();
 ?>
 </div>
 
+<script type="text/javascript">
+$(document).ready(function() {
+  $('form:not(.filter) :input:visible:first').focus();
+});
+</script>
+
 <?php $this->load->view('inc/footer'); ?>

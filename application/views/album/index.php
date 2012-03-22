@@ -12,16 +12,16 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th width="80%">Name</th>
-      <th width="10%">Photos</th>
-      <th width="10%"><a class="btn btn-primary" href="<?php echo site_url("album/create"); ?>">Create new album</a></th>
+      <th width="75%">Name</th>
+      <th>Photos</th>
+      <th><a class="btn btn-primary" href="<?php echo site_url("album/create"); ?>">Create new album</a></th>
     </tr>
   </thead>
   <tbody>
   <?php foreach ($albums as $album): ?>
     <tr>
-      <td><?php echo $album->name; ?></td>
-      <td><?php echo $album->total_images; ?></td>
+      <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a></td>
+      <td><?php echo $album['total_images']; ?></td>
       <td>
         <div class="btn-group">
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -29,10 +29,10 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i> Rename</a></li>
-            <li><a href="<?php echo site_url("album/images/$album->id"); ?>"><i class="icon-picture"></i> Images</a></li>
-            <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i> Configure</a></li>
-            <li><a class="album-delete-btn" href="#album-modal" data-toggle="modal" rel="<?php echo site_url("album/remove/$album->id"); ?>"><i class="icon-trash"></i> Delete</a></li>
+            <li><a href="<?php echo site_url("album/edit/" . $album['id']); ?>"><i class="icon-pencil"></i> Rename</a></li>
+            <li><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><i class="icon-picture"></i> Images</a></li>
+            <li><a href="<?php echo site_url("album/configure/" . $album['id']); ?>"><i class="icon-cog"></i> Configure</a></li>
+            <li><a class="album-delete-btn" href="#album-modal" data-toggle="modal" rel="<?php echo site_url("album/remove/" . $album['id']); ?>"><i class="icon-trash"></i> Delete</a></li>
           </ul>
         </div>
       </td>
@@ -41,6 +41,8 @@
   </tbody>
 </table>
 <?php endif; ?>
+
+<?php echo $this->pagination->create_links(); ?>
 
 <div class="modal hide fade" id="album-modal">
   <div class="modal-header">

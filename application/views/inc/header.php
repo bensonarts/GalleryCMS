@@ -30,7 +30,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
-      <a class="brand" href="/">Project name</a>
+      <a class="brand" href="/"><?php echo $this->config->item('site_title'); ?></a>
       <div class="nav-collapse">
         <ul class="nav">
           <li<?php if ($this->uri->segment(1) == "album") echo ' class="active"'; ?>><a href="<?php echo site_url("album"); ?>">Albums</a></li>
