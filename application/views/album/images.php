@@ -44,13 +44,13 @@ $includes = array(
     <?php 
     $total_file_size += $image->file_size; 
     $total_images++;
-    $img_url = base_url() . 'uploads/' . $image->name;
+    $img_url = base_url() . 'uploads/' . $image->file_name;
     ?>
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 6; ?>px">
       <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
       <div class="image-container">
         <a class="album-images img-fancy" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
-          <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" />
+          <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext . '?r=' . rand(); ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
       <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">

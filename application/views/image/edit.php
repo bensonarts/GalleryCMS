@@ -34,7 +34,7 @@ echo form_fieldset_close();
 
 echo form_button(array('id' => 'submit', 'value' => 'Update', 'name' => 'submit', 'type' => 'submit', 'content' => 'Update','class' => 'btn btn-primary'));
 ?>
- <a href="<?php echo site_url('album/' . $album->id); ?>" class="btn">Cancel</a>
+ <a href="<?php echo site_url('album/images/' . $album->id); ?>" class="btn">Cancel</a>
 <?php
 echo form_close();
 ?>
