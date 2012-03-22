@@ -15,18 +15,19 @@ class Image extends MY_Controller
     else
     {
       $this->load->model('image_model');
+      $this->load->model('album_model');
     }
   }
   
   public function edit($album_id, $image_id)
   {
     $this->load->helper('form');
-    $this->load->model('album_model');
     $this->load->model('config_model');
     $album = $this->album_model->find_by_id($album_id);
     $album_config = $this->config_model->get_by_album_id($album_id);
     $image = $this->image_model->find_by_id($image_id);
     
+    $data = array();
     $data['image'] = $image;
     $data['album'] = $album;
     
@@ -35,6 +36,7 @@ class Image extends MY_Controller
       if ( ! empty($_FILES['file']['tmp_name']))
       {
         // Upload file if image has been selected.
+        $config = array();
         $config['upload_path']    = './uploads/';
         $config['allowed_types']  = 'gif|jpg|png';
         $config['max_size']       = '2048'; // 2MB
@@ -98,7 +100,10 @@ class Image extends MY_Controller
             'updated_at'     => $now,
             'updated_by'     => $this->get_user_id()
           );
+          
           $this->image_model->update($image_data, $image_id);
+          
+          $this->album_model->update(array('updated_at' => $now), $album_id);
           
           $this->session->set_flashdata('flash_message', "Successfully updated image.");
           
@@ -117,7 +122,10 @@ class Image extends MY_Controller
             'updated_at'     => $now,
             'updated_by'     => $this->input->post('user_id')
           );
+        
         $this->image_model->update($image_data, $image_id);
+        
+        $this->album_model->update(array('updated_at' => $now), $album_id);
         
         $this->session->set_flashdata('flash_message', "Successfully updated image.");
         
@@ -163,6 +171,9 @@ class Image extends MY_Controller
     }
     // Delete image records
     $this->image_model->delete($image_id);
+    
+    $now = date('Y-m-d H:i:s');
+    $this->album_model->update(array('updated_at' => $now), $album_id);
     // Delete album record
     $this->session->set_flashdata('flash_message', "Successfully deleted image.");
     redirect("album/images/$album_id");

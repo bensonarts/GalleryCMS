@@ -15,8 +15,11 @@ class Auth extends MY_Controller
   public function index()
   {
     $this->load->helper('form');
+    
+    $data = array();
     $data['email'] = '';
     $this->load->view('auth/index', $data);
+    
     if ($this->_is_logged_in() == TRUE)
     {
       redirect('album');
@@ -41,8 +44,10 @@ class Auth extends MY_Controller
     }
     else
     {
+      $data = array();
       $data['login_error'] = 'Incorrect login';
       $data['email'] = $this->input->post('email_address');
+      
       $this->load->view('auth/index', $data);
     }
   }
@@ -57,7 +62,10 @@ class Auth extends MY_Controller
   {
     $this->load->helper('form');
     $email_address = $this->input->post('email_address');
+    
+    $data = array();
     $data['email_address'] = $email_address;
+    
     if (isset($email_address))
     {
       // Validate form
@@ -97,6 +105,8 @@ class Auth extends MY_Controller
   public function resetpassword($uuid)
   {
     $this->load->model('ticket_model', 'ticket_model');
+    
+    $data = array();
     // Check for ticket
     $ticket = $this->ticket_model->get_by_uuid($uuid);
     if (empty($ticket))

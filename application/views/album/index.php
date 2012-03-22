@@ -8,19 +8,26 @@
   <h1>Albums</h1>
 </div>
 
+<h4>My JSON feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/my_feed/json/$user->uuid"); ?>"><?php echo site_url("api/my_feed/json/$user->uuid"); ?></a></pre></h4>
+<h4>My XML feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/my_feed/xml/$user->uuid"); ?>"><?php echo site_url("api/my_feed/xml/$user->uuid"); ?></a></pre></h4>
+
 <?php if (isset($albums)): ?>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th width="75%">Name</th>
-      <th>Photos</th>
-      <th><a class="btn btn-primary" href="<?php echo site_url("album/create"); ?>">Create new album</a></th>
+      <th>Name</th>
+      <th width="160">Created</th>
+      <th width="160">Updated</th>
+      <th width="70">Photos</th>
+      <th width="140"><a class="btn btn-primary" href="<?php echo site_url("album/create"); ?>">Create new album</a></th>
     </tr>
   </thead>
   <tbody>
   <?php foreach ($albums as $album): ?>
     <tr>
       <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a></td>
+      <td><?php echo date('M d, Y', strtotime($album['created_at'])); ?></td>
+      <td><?php echo date('M d, Y', strtotime($album['updated_at'])); ?></td>
       <td><?php echo $album['total_images']; ?></td>
       <td>
         <div class="btn-group">

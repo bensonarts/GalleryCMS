@@ -39,11 +39,16 @@ class Album extends MY_Controller
     }
     
     $this->load->library('pagination');
+    
+    $config = array();
     $config['base_url'] = site_url('album/index');
     $config['total_rows'] = $total;
     $config['per_page'] = $per_page;
+    
     $this->pagination->initialize($config);
     
+    $this->load->model('user_model');
+    $data['user'] = $this->user_model->find_by_id($this->get_user_id());
     
     $flash_login_success = $this->session->flashdata('flash_message'); 
     
@@ -77,10 +82,13 @@ class Album extends MY_Controller
     else
     {
       // Success, create album & redirect
+      $now = date('Y-m-d H:i:s');
       $data = array(
                    'name' => $this->input->post('album_name'), 
                    'created_by' => $user_data['user_id'],
-                   'updated_by' => $user_data['user_id']);
+                   'updated_by' => $user_data['user_id'],
+                   'created_at' => $now,
+                   'updated_at' => $now);
       $new_ablum_id = $this->album_model->create($data);
       
       $this->load->model('config_model');
@@ -99,7 +107,10 @@ class Album extends MY_Controller
   public function edit($album_id)
   {
     $this->load->helper('form');
+    
+    $data = array();
     $data['album'] = $this->album_model->find_by_id($album_id);
+    
     $this->load->view('album/edit', $data);
   }
   
@@ -109,8 +120,11 @@ class Album extends MY_Controller
     $this->load->helper('form');
     $this->load->library('form_validation');
     $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
+    
+    $data = array();
     $data['album'] = $this->album_model->find_by_id($album_id);
     $user_data = $this->session->all_userdata();
+    
     $this->form_validation->set_rules('album_name', 'Album Name', 'trim|required|max_length[45]|xss_clean');
     if ($this->form_validation->run() == FALSE)
     {
@@ -124,7 +138,9 @@ class Album extends MY_Controller
       $data = array(
                    'name' => $this->input->post('album_name'), 
                    'created_by' => $user_data['user_id'],
-                   'updated_by' => $user_data['user_id']);
+                   'updated_by' => $user_data['user_id'],
+                   'created_at' => $now,
+                   'updated_at' => $now);
       $this->album_model->update($data, $album_id);
       $this->session->set_flashdata('flash_message', "Successfully updated album.");
       redirect('album');
@@ -166,15 +182,18 @@ class Album extends MY_Controller
   {
     $this->load->model('config_model');
     
+    $data = array();
     $data['config'] = $this->config_model->get_by_album_id($album_id);
     $data['album'] = $this->album_model->find_by_id($album_id);
     $data['images'] = $this->image_model->get_images_by_album_id($album_id);
     $data['user_id'] = $this->get_user_id();
+    
     $flash_login_success = $this->session->flashdata('flash_message'); 
     if (isset($flash_login_success) && ! empty($flash_login_success))
     {
       $data['flash'] = $flash_login_success;
     }
+    
     $this->load->view('album/images', $data);
   }
   
@@ -218,17 +237,21 @@ class Album extends MY_Controller
             $config['thumb_marker']    = '_thumb';
             // TODO Handle cropping
             $this->image_lib->initialize($config);
-            $success = $this->image_lib->resize();
+            $this->image_lib->resize();
             $this->image_lib->clear();
             $config = array();
           }
         }
+        
+        $now = date('Y-m-d H:i:s');
+        $this->album_model->update(array('updated_at' => $now), $album_id);
         
         redirect('album');
         return;
       }
     }
     
+    $data = array();
     $data['config'] = $this->config_model->get_by_album_id($album_id);
     $data['album'] = $this->album_model->find_by_id($album_id);
     

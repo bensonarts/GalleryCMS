@@ -20,12 +20,15 @@ class User extends MY_Controller
   
   public function index()
   {
+    $data = array();
     $data['users'] = $this->user_model->fetch_all();
-    $flash_login_success = $this->session->flashdata('flash_message'); 
+    $flash_login_success = $this->session->flashdata('flash_message');
+    
     if (isset($flash_login_success) && ! empty($flash_login_success))
     {
       $data['flash'] = $flash_login_success;
     }
+    
     $data['user_id'] = $this->get_user_id();
     $this->load->view('user/index', $data);
   }
@@ -54,12 +57,13 @@ class User extends MY_Controller
       // Success, create user & redirect
       $now = date('Y-m-d H:i:s');
       $user_data = array(
-                   'email_address' => $this->input->post('email_address'), 
-                   'password' => $this->input->post('password'),
-                   'is_active' => $this->input->post('is_active'),
-                   'is_admin' => $this->input->post('is_admin'),
-                   'created_at' => $now,
-                   'updated_at' => $now);
+                   'email_address'   => $this->input->post('email_address'), 
+                   'password'        => $this->input->post('password'),
+                   'is_active'       => $this->input->post('is_active'),
+                   'is_admin'        => $this->input->post('is_admin'),
+                   'created_at'      => $now,
+                   'uuid'            => $this->create_uuid(),
+                   'updated_at'      => $now);
       $this->user_model->create($user_data);
       $this->session->set_flashdata('flash_message', "User successfully created.");
       redirect('user/index');
@@ -69,7 +73,10 @@ class User extends MY_Controller
   public function edit($user_id)
   {
     $this->load->helper('form');
+    
+    $data = array();
     $data['user'] = $this->user_model->find_by_id($user_id);
+    
     $this->load->view('user/edit', $data);
   }
   
@@ -78,7 +85,10 @@ class User extends MY_Controller
     // Validate form.
     $this->load->helper('form');
     $user = $this->user_model->find_by_id($user_id);
+    
+    $data = array();
     $data['user'] = $user;
+    
     $this->load->library('form_validation');
     $this->form_validation->set_error_delimiters('<div class="alert alert-error"><strong>Error: </strong>', '</div>');
     $email_address = $this->input->post('email_address');
