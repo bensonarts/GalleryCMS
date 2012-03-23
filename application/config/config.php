@@ -20,6 +20,11 @@ $config['base_url']	= 'http://dev-gallerycms.com/';
  * Page title that appears in the browser's title bar.
  */
 $config['site_title']   = 'GalleryCMS';
+
+/*
+ * From email address for sending system emails.
+ */
+$config['from_email_address']   = 'noreply@gallerycms.com';
 /*
 |--------------------------------------------------------------------------
 | Index File

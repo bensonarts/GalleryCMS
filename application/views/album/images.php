@@ -61,10 +61,15 @@ $includes = array(
       </div>
       <div class="btn-group">
         <a href="<?php echo $img_url; ?>" class="btn img-fancy" title="<?php echo $image->caption; ?>"><i class="icon-zoom-in"></i></a>
-        <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download"></i></a>
+        <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download-alt"></i></a>
         <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
         <?php /*<a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
         <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a> */ ?>
+        <?php if ($image->published == 1): ?>
+        <a href="<?php echo site_url("image/unpublish/$album->id/$image->id"); ?>" class="btn btn-success" title="Published"><i class="icon-ok icon-white"></i></a>
+        <?php else: ?>
+        <a href="<?php echo site_url("image/publish/$album->id/$image->id"); ?>" class="btn" title="Unpublished"><i class="icon-ok"></i></a>
+        <?php endif; ?>
         <a href="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" class="btn btn-danger" title="Delete"
            onclick="confirm('Are you sure you wish to delete this image?')"><i class="icon-remove icon-white"></i></a>
       </div>
@@ -79,7 +84,6 @@ $includes = array(
       <li class="nav-header"><?php echo $album->name; ?></li>
       <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
       <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i>Configure</a></li>
-      <li><a href="<?php echo site_url("album/unpublish/$album->id"); ?>"><i class="icon-ban-circle"></i>Unpublish</a></li>
       <li class="nav-header">Info</li>
       <li>Images: <?php echo $total_images; ?></li>
       <li>Album file size: <?php echo round($total_file_size / 1024, 2); ?> MB</li>

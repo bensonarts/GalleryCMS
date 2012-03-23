@@ -18,6 +18,9 @@ class User extends MY_Controller
     }
   }
   
+  /**
+   * 
+   */
   public function index()
   {
     $data = array();
@@ -32,13 +35,19 @@ class User extends MY_Controller
     $data['user_id'] = $this->get_user_id();
     $this->load->view('user/index', $data);
   }
-
+  
+  /**
+   * 
+   */
   public function create()
   {
     $this->load->helper('form');
     $this->load->view('user/create');
   }
   
+  /**
+   * 
+   */
   public function add()
   {
     // Validate form.
@@ -69,7 +78,11 @@ class User extends MY_Controller
       redirect('user/index');
     }
   }
-
+  
+  /**
+   *
+   * @param type $user_id 
+   */
   public function edit($user_id)
   {
     $this->load->helper('form');
@@ -80,6 +93,10 @@ class User extends MY_Controller
     $this->load->view('user/edit', $data);
   }
   
+  /**
+   *
+   * @param type $user_id 
+   */
   public function update($user_id)
   {
     // Validate form.
@@ -124,23 +141,70 @@ class User extends MY_Controller
       redirect("user");
     }
   }
-
+  
+  /**
+   *
+   * @param type $user_id 
+   */
   public function deactivate($user_id)
   {
-    // TODO Implement functionality.
-    // TODO Unpublish user's images and albums
+    // Unpublish user's images.
+    $this->load->model('image_model');
+    $this->image_model->update_by_user_id(array('published' => 0), $user_id);
+    
     $this->user_model->update(array('is_active' => 0), $user_id);
-    $this->session->set_flashdata('flash_message', "User has been deactivated.");
+    $this->session->set_flashdata('flash_message', "User has been deactivated. This user's albums have been unpublished.");
     redirect("user");
   }
   
+  /**
+   *
+   * @param type $user_id 
+   */
   public function remove($user_id)
   {
-    // TODO Implement functionality.
-    // TODO Remove user's images and albums
+    $this->load->model('album_model');
+    $this->load->model('image_model');
+    $this->load->model('config_model');
+    // Remove user's images and albums
+    
+    $albums = $this->album_model->fetch_by_user_id($user_id);
+    if ( ! empty($albums))
+    {
+      foreach ($albums as $album)
+      {
+        // Delete all photos with this album id
+        $rs = $this->image_model->get_images_by_album_id($album->id);
+        if ( ! empty($rs))
+        {
+          foreach ($rs as $image)
+          {
+            $file_name = $image->path . $image->file_name;
+            $thumbnail_name = $image->path . $image->raw_name . '_thumb' . $image->file_ext;
+            if (file_exists($file_name))
+            {
+              unlink($file_name);
+            }
+            if (file_exists($thumbnail_name))
+            {
+              unlink($thumbnail_name);
+            }
+          }
+        }
+        
+        // Delete image records
+        $this->image_model->delete_by_album_id($album->id);
+        // Delete album record
+        $this->album_model->delete($album->id);
+        // Delete album config
+        $this->config_model->delete_by_album_id($album->id);
+      }
+    }
+    
     $this->user_model->delete($user_id);
-    $this->session->set_flashdata('flash_message', "User has been deleted.");
-    redirect("user");
+    
+    $this->session->set_flashdata('flash_message', "Successfully deleted user. Albums and images belonging this data have been erased.");
+    redirect('user');
   }
   
 }

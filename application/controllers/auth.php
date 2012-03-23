@@ -3,6 +3,9 @@
 if (!defined('BASEPATH'))
   exit('No direct script access allowed');
 
+/**
+ * 
+ */
 class Auth extends MY_Controller
 {
 
@@ -11,7 +14,10 @@ class Auth extends MY_Controller
     parent::__construct();
     $this->load->model('user_model');
   }
-
+  
+  /**
+   * 
+   */
   public function index()
   {
     $this->load->helper('form');
@@ -25,7 +31,10 @@ class Auth extends MY_Controller
       redirect('album');
     }
   }
-
+  
+  /**
+   * 
+   */
   public function authenticate()
   {
     // Authenticate user.
@@ -51,13 +60,20 @@ class Auth extends MY_Controller
       $this->load->view('auth/index', $data);
     }
   }
-
+  
+  /**
+   * 
+   */
   public function logout()
   {
     $this->session->sess_destroy();
     redirect('auth');
   }
-
+  
+  /**
+   *
+   * @return type 
+   */
   public function forgotpassword()
   {
     $this->load->helper('form');
@@ -88,8 +104,7 @@ class Auth extends MY_Controller
           $ticket_id = $this->ticket_model->create(array('user_id' => $user->id, 'uuid' => $this->create_uuid()));
           $ticket = $this->ticket_model->find_by_id($ticket_id);
           // Send email
-          // TODO Get this from config
-          $subject = 'GalleryCMS - Forgot Password';
+          $subject = $this->config->item('site_title') . ' - Forgot Password';
           $reset_pw_url = base_url('auth/resetpassword/' . $ticket->uuid);
           $message = "You have requested to reset your password.\r\n Click the following link to reset your password: $reset_pw_url";
           $this->send_mail($user->email_address, $subject, $message);
@@ -101,7 +116,11 @@ class Auth extends MY_Controller
     }
     $this->load->view('auth/forgot_password', $data);
   }
-
+  
+  /**
+   *
+   * @param type $uuid 
+   */
   public function resetpassword($uuid)
   {
     $this->load->model('ticket_model', 'ticket_model');
@@ -144,7 +163,11 @@ class Auth extends MY_Controller
     }
     $this->load->view('auth/reset_password', $data);
   }
-
+  
+  /**
+   *
+   * @param type $user 
+   */
   protected function create_login_session($user)
   {
     $session_data = array(

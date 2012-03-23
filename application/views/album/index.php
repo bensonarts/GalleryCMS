@@ -16,8 +16,11 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th width="160">Created</th>
-      <th width="160">Updated</th>
+      <?php if ($is_admin == TRUE): ?>
+      <th width="160">Owner</th>
+      <?php endif; ?>
+      <th width="120">Created</th>
+      <th width="120">Updated</th>
       <th width="70">Photos</th>
       <th width="140"><a class="btn btn-primary" href="<?php echo site_url("album/create"); ?>">Create new album</a></th>
     </tr>
@@ -26,6 +29,9 @@
   <?php foreach ($albums as $album): ?>
     <tr>
       <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a></td>
+      <?php if ($is_admin == TRUE): ?>
+      <td><?php echo $album['user']; ?></td>
+      <?php endif; ?>
       <td><?php echo date('M d, Y', strtotime($album['created_at'])); ?></td>
       <td><?php echo date('M d, Y', strtotime($album['updated_at'])); ?></td>
       <td><?php echo $album['total_images']; ?></td>

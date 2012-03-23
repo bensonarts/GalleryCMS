@@ -43,8 +43,7 @@ class MY_Controller extends CI_Controller
   protected function send_mail($to, $subject, $message)
   {
     $this->load->library('email');
-    // TODO Pull from config
-    $this->email->from('admin@gallerycms.com');
+    $this->email->from($this->config->item('from_email_address'));
     $this->email->to($to);
     $this->email->subject($subject);
     $this->email->message($message);

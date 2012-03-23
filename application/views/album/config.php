@@ -19,6 +19,9 @@ echo form_input(array('name' => 'thumb_height', 'id' => 'thumb_height', 'value' 
 
 echo form_label('Crop Thumbnails?', 'crop_thumbnails');
 echo form_checkbox('crop_thumbnails', '1', $config->crop_thumbnails);
+
+echo form_label('Automatically publish images?', 'auto_publish');
+echo form_checkbox('auto_publish', '1', $config->auto_publish);
 ?>
 <div class="alert alert-info">This forces the thumbnail to be crop to fit the exact dimensions.</div>
 <?php

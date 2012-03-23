@@ -36,37 +36,40 @@ class Api extends MY_Controller
     else
     {
       $upload_info = $this->upload->data();
+      
+      $this->load->model('config_model');
+      $album_config = $this->config_model->get_by_album_id($album_id);
 
-       // Insert file information into database
-       $now = date('Y-m-d H:i:s');
-       $order_num = $this->image_model->get_last_order_num($album_id);
-       if (empty($order_num))
-       {
-         $order_num = 0;
-       }
-       $order_num++;
-       $image_data = array(
-        'album_id'       => $album_id,
-        'uuid'           => $this->create_uuid(),
-        'name'           => $upload_info['file_name'],
-        'order_num'      => $order_num,
-        'caption'        => '',
-        'raw_name'       => $upload_info['raw_name'],
-        'file_type'      => $upload_info['file_type'],
-        'file_name'      => $upload_info['file_name'],
-        'file_ext'       => $upload_info['file_ext'],
-        'file_size'      => $upload_info['file_size'],
-        'path'           => $config['upload_path'],
-        'full_path'      => $upload_info['full_path'],
-        'published'      => 1,
-        'created_at'     => $now,
-        'updated_at'     => $now,
-        'created_by'     => $this->input->post('user_id')
-       );
-       
-       $this->image_model->create($image_data);
-       
-       $this->album_model->update(array('updated_at' => $now), $album_id);
+      // Insert file information into database
+      $now = date('Y-m-d H:i:s');
+      $order_num = $this->image_model->get_last_order_num($album_id);
+      if (empty($order_num))
+      {
+        $order_num = 0;
+      }
+      $order_num++;
+      $image_data = array(
+      'album_id'       => $album_id,
+      'uuid'           => $this->create_uuid(),
+      'name'           => $upload_info['file_name'],
+      'order_num'      => $order_num,
+      'caption'        => '',
+      'raw_name'       => $upload_info['raw_name'],
+      'file_type'      => $upload_info['file_type'],
+      'file_name'      => $upload_info['file_name'],
+      'file_ext'       => $upload_info['file_ext'],
+      'file_size'      => $upload_info['file_size'],
+      'path'           => $config['upload_path'],
+      'full_path'      => $upload_info['full_path'],
+      'published'      => $album_config->auto_publish,
+      'created_at'     => $now,
+      'updated_at'     => $now,
+      'created_by'     => $this->input->post('user_id')
+      );
+
+      $this->image_model->create($image_data);
+
+      $this->album_model->update(array('updated_at' => $now), $album_id);
     }
     
     echo $upload_info['file_name'];
