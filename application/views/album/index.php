@@ -17,7 +17,7 @@
     <tr>
       <th>Name</th>
       <?php if ($is_admin == TRUE): ?>
-      <th width="160">Owner</th>
+      <th width="120">Owner</th>
       <?php endif; ?>
       <th width="120">Created</th>
       <th width="120">Updated</th>
@@ -30,7 +30,11 @@
     <tr>
       <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a></td>
       <?php if ($is_admin == TRUE): ?>
-      <td><?php echo $album['user']; ?></td>
+        <?php if ($email_address == $album['user']): ?>
+        <td>Myself</td>
+        <?php else: ?>
+        <td><a href="<?php echo site_url('user/edit/' . $album['user_id']); ?>"><?php echo $album['user']; ?></a></td>
+        <?php endif; ?>
       <?php endif; ?>
       <td><?php echo date('M d, Y', strtotime($album['created_at'])); ?></td>
       <td><?php echo date('M d, Y', strtotime($album['updated_at'])); ?></td>

@@ -64,6 +64,8 @@ class Album extends MY_Controller
     }
     
     $data['is_admin'] = $this->is_admin();
+    $session_data = $this->get_user_data();
+    $data['email_address'] = $session_data['email_address'];
     
     $this->load->view('album/index', $data);
   }

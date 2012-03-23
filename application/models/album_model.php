@@ -15,7 +15,7 @@ class Album_model extends MY_Model
    */
   public function fetch_by_user_id($user_id)
   {
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user');
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
     $this->db->from($this->table_name); 
     $this->db->join('image', 'image.album_id = album.id', 'left');
     $this->db->join('user', 'user.id = album.created_by', 'left');
@@ -33,7 +33,7 @@ class Album_model extends MY_Model
    */
   public function fetch_all()
   {
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user');
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
     $this->db->from($this->table_name); 
     $this->db->join('image', 'image.album_id = album.id', 'left');
     $this->db->join('user', 'user.id = album.created_by', 'left');
@@ -54,7 +54,7 @@ class Album_model extends MY_Model
   {
     $data = array();
     
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user');
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
     $this->db->from($this->table_name); 
     $this->db->join('image', 'image.album_id = album.id', 'left');
     $this->db->join('user', 'user.id = album.created_by', 'left');
@@ -85,7 +85,7 @@ class Album_model extends MY_Model
   {
     $data = array();
     
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user');
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
     $this->db->from($this->table_name); 
     $this->db->join('image', 'image.album_id = album.id', 'left');
     $this->db->join('user', 'user.id = album.created_by', 'left');

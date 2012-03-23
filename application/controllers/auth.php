@@ -171,11 +171,11 @@ class Auth extends MY_Controller
   protected function create_login_session($user)
   {
     $session_data = array(
-        'email_address' => $user->email_address,
-        'user_id' => $user->id,
-        'logged_in' => TRUE,
-        'is_admin' => $user->is_admin,
-        'ip' => $this->input->ip_address()
+        'email_address'  => $user->email_address,
+        'user_id'        => $user->id,
+        'logged_in'      => TRUE,
+        'is_admin'       => $user->is_admin,
+        'ip'             => $this->input->ip_address()
     );
     $this->session->set_userdata($session_data);
   }

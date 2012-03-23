@@ -1,5 +1,5 @@
 <footer>
-  <p>&copy; Company <?php echo date('Y'); ?></p>
+  <p>&copy; <?php echo $this->config->item('site_title') . ' ' . date('Y'); ?></p>
 </footer>
 
 </div><!--/.fluid-container-->
