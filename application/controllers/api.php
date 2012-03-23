@@ -143,29 +143,6 @@ class Api extends MY_Controller
   
   /**
    *
-   * @param type $type
-   * @param type $user_uuid
-   * @throws Exception 
-   */
-  public function my_feed($type, $user_uuid)
-  {
-    // TODO Recursivley display user's albums
-    switch (strtolower($type))
-    {
-      case 'json':
-        $this->output_json_feed($user_uuid);
-        break;
-      case 'xml':
-        $this->output_xml_feed($user_uuid);
-        break;
-      default:
-        throw new Exception('This option is not supported.');
-        break;
-    }
-  }
-  
-  /**
-   *
    * @param type $album_id
    * @return type 
    */

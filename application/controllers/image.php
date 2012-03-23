@@ -3,6 +3,9 @@
 if (!defined('BASEPATH'))
   exit('No direct script access allowed');
 
+/**
+ * 
+ */
 class Image extends MY_Controller
 {
   public function __construct()
@@ -19,6 +22,12 @@ class Image extends MY_Controller
     }
   }
   
+  /**
+   *
+   * @param type $album_id
+   * @param type $image_id
+   * @return type 
+   */
   public function edit($album_id, $image_id)
   {
     $this->load->helper('form');
@@ -137,6 +146,10 @@ class Image extends MY_Controller
     $this->load->view('image/edit', $data);
   }
   
+  /**
+   *
+   * @param type $image_id 
+   */
   public function download($image_id)
   {
     $image = $this->image_model->find_by_id($image_id);
@@ -152,6 +165,11 @@ class Image extends MY_Controller
     echo 'image not found';
   }
   
+  /**
+   *
+   * @param type $album_id
+   * @param type $image_id 
+   */
   public function remove($album_id, $image_id)
   {
     // Delete all photos with this album id
@@ -179,6 +197,11 @@ class Image extends MY_Controller
     redirect("album/images/$album_id");
   }
   
+  /**
+   *
+   * @param type $album_id
+   * @param type $image_id 
+   */
   public function publish($album_id, $image_id)
   {
     $this->image_model->update(array('published' => 1), $image_id);
@@ -186,6 +209,11 @@ class Image extends MY_Controller
     redirect("album/images/$album_id");
   }
   
+  /**
+   *
+   * @param type $album_id
+   * @param type $image_id 
+   */
   public function unpublish($album_id, $image_id)
   {
     $this->image_model->update(array('published' => 0), $image_id);

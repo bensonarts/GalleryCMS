@@ -49,7 +49,7 @@ $includes = array(
     $img_url = base_url() . 'uploads/' . $image->file_name;
     ?>
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 10; ?>px">
-      <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
+      <div class="drag-handle" style="height: <?php echo $config->thumb_height + 5; ?>px"></div>
       <div class="image-container">
         <a class="album-images img-fancy thumbnail" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
           <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext . '?r=' . rand(); ?>" alt="<?php echo $image->caption; ?>" />

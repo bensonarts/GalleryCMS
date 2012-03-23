@@ -8,9 +8,6 @@
   <h1>Albums</h1>
 </div>
 
-<h4>My JSON feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/my_feed/json/$user->uuid"); ?>"><?php echo site_url("api/my_feed/json/$user->uuid"); ?></a></pre></h4>
-<h4>My XML feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/my_feed/xml/$user->uuid"); ?>"><?php echo site_url("api/my_feed/xml/$user->uuid"); ?></a></pre></h4>
-
 <?php if (isset($albums)): ?>
 <table class="table table-striped table-bordered">
   <thead>
