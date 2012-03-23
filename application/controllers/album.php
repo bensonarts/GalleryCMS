@@ -11,7 +11,7 @@ class Album extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    if ($this->is_logged_in() === FALSE)
+    if ($this->is_logged_in() == FALSE)
     {
       redirect('auth');
     }
@@ -47,9 +47,27 @@ class Album extends MY_Controller
     $this->load->library('pagination');
     
     $config = array();
-    $config['base_url']    = site_url('album/index');
-    $config['total_rows']  = $total;
-    $config['per_page']    = $per_page;
+    $config['base_url']         = site_url('album/index');
+    $config['total_rows']       = $total;
+    $config['per_page']         = $per_page;
+    $config['full_tag_open']    = '<div class="pagination"><ul>';
+    $config['full_tag_close']   = '</ul></div>';
+    $config['first_link']       = FALSE;
+    $config['last_link']        = FALSE;
+    $config['first_tag_open']   = '<li>';
+    $config['first_tag_close']  = '</li>';
+    $config['prev_link']        = '&larr; Previous';
+    $config['prev_tag_open']    = '<li class="prev">';
+    $config['prev_tag_close']   = '</li>';
+    $config['next_link']        = 'Next &rarr;';
+    $config['next_tag_open']    = '<li>';
+    $config['next_tag_close']   = '</li>';
+    $config['last_tag_open']    = '<li>';
+    $config['last_tag_close']   = '</li>';
+    $config['cur_tag_open']     =  '<li class="active"><a href="#">';
+    $config['cur_tag_close']    = '</a></li>';
+    $config['num_tag_open']     = '<li>';
+    $config['num_tag_close']    = '</li>';
     
     $this->pagination->initialize($config);
     

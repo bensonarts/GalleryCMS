@@ -9,7 +9,6 @@ body { padding-top: 60px; padding-bottom: 40px; }
     #sortable li div.drag-handle { background-image: url(../images/drag-handle.png); width: 23px; height: 100px; top: 0; left: 0;
                 margin: 3px 10px 3px 3px; position: absolute; cursor: move; }
     #sortable li div.image-container { position: absolute; top: 0; left: 33px; }
-      #sortable li div.image-container img { background: white; padding: 3px; }
     #sortable li div.info { position: absolute; top: 3px; }
     #sortable li div.btn-group { position: absolute; top: 0; right: 0; }
 

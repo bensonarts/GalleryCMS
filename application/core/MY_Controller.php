@@ -24,7 +24,7 @@ class MY_Controller extends CI_Controller
   protected function is_logged_in()
   {
     $session_data = $this->session->all_userdata();
-    return (isset($session_data['user_id']) && $session_data['user_id'] > 0 && isset($session_data['logged_in']) && $session_data['logged_in'] === TRUE);
+    return (isset($session_data['user_id']) && $session_data['user_id'] > 0 && isset($session_data['logged_in']) && $session_data['logged_in'] == TRUE);
   }
   
   protected function is_admin()

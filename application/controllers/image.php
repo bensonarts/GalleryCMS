@@ -8,7 +8,7 @@ class Image extends MY_Controller
   public function __construct()
   {
     parent::__construct();
-    if ($this->is_logged_in() === FALSE)
+    if ($this->is_logged_in() == FALSE)
     {
       redirect('auth');
     }

@@ -10,11 +10,15 @@ $includes = array(
 <?php endif; ?>
 
 <div class="w100" style="margin-bottom: 10px;">
-  <div class="page-header">
-    <h1><?php echo $album->name; ?></h1>
-  </div>
+  
+  <ul class="pager">
+    <li class="previous">
+      <a href="<?php echo site_url('album'); ?>">&larr; Back to albums</a>
+    </li>
+  </ul>
+  
   <div class="well">
-    <h2 style="margin-bottom: 10px;">Upload</h2>
+    <h4 style="margin-bottom: 10px;">Upload images for album: <?php echo $album->name; ?></h4>
     <input id="file_upload" type="file" name="file_upload" />
     <p id="upload-btn" style="margin:10px 0;">
       <a href="javascript:$('#file_upload').uploadifyUpload()" class="btn btn-primary btn-large">Upload Files</a>
@@ -26,8 +30,6 @@ $includes = array(
       <div class="clear"></div>
     </div>
   </div>
-  <h3>JSON feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><?php echo site_url("api/feed/json/$album->id"); ?></a></pre></h3>
-  <h3>XML feed: <pre style="font-weight:normal;"><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>"><?php echo site_url("api/feed/xml/$album->id"); ?></a></pre></h3>
 </div>
 
 <div id="reorder-feedback" class="alert alert-success" style="display: none;"></div>
@@ -46,25 +48,25 @@ $includes = array(
     $total_images++;
     $img_url = base_url() . 'uploads/' . $image->file_name;
     ?>
-    <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 6; ?>px">
+    <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 10; ?>px">
       <div class="drag-handle" style="height: <?php echo $config->thumb_height; ?>px"></div>
       <div class="image-container">
-        <a class="album-images img-fancy" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
+        <a class="album-images img-fancy thumbnail" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
           <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext . '?r=' . rand(); ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
       <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">
         File name: <?php echo $image->name; ?><br />
         Caption: <?php echo $image->caption; ?><br />
-        Comments: <?php echo 0; /** @todo */ ?><br />
-        File size: <?php echo $image->file_size; ?> KB
+        Comments: <?php echo $image->comments; ?><br />
+        File size: <span class="badge"><?php echo $image->file_size; ?> KB</span><br />
+        Category: <span class="label label-info">Uncategorized</span>
       </div>
       <div class="btn-group">
         <a href="<?php echo $img_url; ?>" class="btn img-fancy" title="<?php echo $image->caption; ?>"><i class="icon-zoom-in"></i></a>
         <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download-alt"></i></a>
         <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
-        <?php /*<a href="<?php echo site_url("image/tags/$image->id"); ?>" class="btn" title="Tags"><i class="icon-tags"></i></a>
-        <a href="<?php echo site_url("image/comments/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a> */ ?>
+        <a href="<?php echo site_url("image/comments/$album->id/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
         <?php if ($image->published == 1): ?>
         <a href="<?php echo site_url("image/unpublish/$album->id/$image->id"); ?>" class="btn btn-success" title="Published"><i class="icon-ok icon-white"></i></a>
         <?php else: ?>
@@ -84,6 +86,8 @@ $includes = array(
       <li class="nav-header"><?php echo $album->name; ?></li>
       <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
       <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i>Configure</a></li>
+      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><i class="icon-book"></i>JSON Feed</a></li>
+      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><i class="icon-book"></i>XML Feed</a></li>
       <li class="nav-header">Info</li>
       <li>Images: <?php echo $total_images; ?></li>
       <li>Album file size: <?php echo round($total_file_size / 1024, 2); ?> MB</li>

@@ -3,12 +3,15 @@
 if (!defined('BASEPATH'))
   exit('No direct script access allowed');
 
+/**
+ * 
+ */
 class User extends MY_Controller
 {
   public function __construct()
   {
     parent::__construct();
-    if ($this->is_logged_in() === FALSE && $this->is_admin() === FALSE)
+    if ($this->is_logged_in() == FALSE)
     {
       redirect('album');
     }
@@ -32,7 +35,7 @@ class User extends MY_Controller
       $data['flash'] = $flash_login_success;
     }
     
-    $data['user_id'] = $this->get_user_id();
+    $data['user_data'] = $this->get_user_data();
     $this->load->view('user/index', $data);
   }
   
@@ -41,6 +44,11 @@ class User extends MY_Controller
    */
   public function create()
   {
+    if ($this->is_admin() != TRUE)
+    {
+      redirect('user');
+      exit();
+    }
     $this->load->helper('form');
     $this->load->view('user/create');
   }
@@ -50,6 +58,11 @@ class User extends MY_Controller
    */
   public function add()
   {
+    if ($this->is_admin() != TRUE)
+    {
+      redirect('user');
+      exit();
+    }
     // Validate form.
     $this->load->helper('form');
     $this->load->library('form_validation');
@@ -148,6 +161,11 @@ class User extends MY_Controller
    */
   public function deactivate($user_id)
   {
+    if ($this->is_admin() != TRUE)
+    {
+      redirect('user');
+      exit();
+    }
     // Unpublish user's images.
     $this->load->model('image_model');
     $this->image_model->update_by_user_id(array('published' => 0), $user_id);
@@ -163,6 +181,11 @@ class User extends MY_Controller
    */
   public function remove($user_id)
   {
+    if ($this->is_admin() != TRUE)
+    {
+      redirect('user');
+      exit();
+    }
     $this->load->model('album_model');
     $this->load->model('image_model');
     $this->load->model('config_model');

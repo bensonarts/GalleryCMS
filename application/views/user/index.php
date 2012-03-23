@@ -19,15 +19,19 @@
       <th>Last logged in</th>
       <th># of albums</th>
       <th>Last IP</th>
-      <th><a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a></th>
+      <th>
+        <?php if ($user_data['is_admin'] == 1): ?>
+        <a class="btn btn-primary" href="<?php echo site_url("user/create"); ?>">Create new user</a>
+        <?php endif; ?>
+      </th>
     </tr>
   </thead>
   <tbody>
   <?php foreach ($users as $user): ?>
     <tr>
       <td><?php echo $user->email_address; ?></td>
-      <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>
       <td><?php echo (($user->is_admin == 1) ? 'Yes' : 'No'); ?></td>
+      <td><?php echo (($user->is_active == 1) ? 'Yes' : 'No'); ?></td>
       <td><?php echo date('M j, Y', strtotime($user->created_at)); ?></td>
       <td><?php
       if (isset($user->last_logged_in)):
@@ -38,18 +42,20 @@
       <td><?php echo $user->last_ip; ?></td>
       <td>
         <div class="btn-group">
-          <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+          <a class="btn dropdown-toggle<?php if ($user_data['is_admin'] != 1 && $user_data['user_id'] != $user->id): ?> disabled<?php endif; ?>" data-toggle="dropdown" href="#">
             Action
             <span class="caret"></span>
           </a>
+          <?php if ($user_data['is_admin'] == 1 || $user_data['user_id'] == $user->id): ?>
           <ul class="dropdown-menu">
             <li><a href="<?php echo site_url("user/edit/$user->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
-            <?php if ($user_id != $user->id): ?>
+            <?php if ($user_data['is_admin'] == 1): ?>
             <li><a href="<?php echo site_url("user/deactivate/$user->id"); ?>"><i class="icon-ban-circle"></i> Deactivate</a></li>
             <li><a class="user-delete-btn" href="#user-modal" data-toggle="modal" rel="<?php echo site_url("user/remove/$user->id"); ?>">
                 <i class="icon-trash"></i> Delete</a></li>
             <?php endif; ?>
           </ul>
+          <?php endif; ?>
         </div>
       </td>
     </tr>
