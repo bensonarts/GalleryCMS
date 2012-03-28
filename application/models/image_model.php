@@ -18,9 +18,9 @@ class Image_model extends MY_Model
    */
   public function get_images_by_album_id($album_id)
   {
-    $this->db->select('image.*, COUNT(comment.id) as comments')
+    $this->db->select('image.*, COUNT(image_comment.id) as comments')
              ->from($this->table_name)
-             ->join('comment', 'comment.image_id = image.id', 'left')
+             ->join('image_comment', 'image_comment.image_id = image.id', 'left')
              ->order_by('image.order_num', 'asc')
              ->group_by('image.id')
              ->where('image.album_id', $album_id);

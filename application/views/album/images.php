@@ -58,15 +58,15 @@ $includes = array(
       <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">
         File name: <?php echo $image->name; ?><br />
         Caption: <?php echo $image->caption; ?><br />
-        Comments: <?php echo $image->comments; ?><br />
-        File size: <?php echo $image->file_size; ?> KBbr />
+        <?php /* Comments: <?php echo $image->comments; ?><br /> */ ?>
+        File size: <?php echo $image->file_size; ?> KB<br />
         Category: <span class="label label-info">Uncategorized</span>
       </div>
       <div class="btn-group">
         <a href="<?php echo $img_url; ?>" class="btn img-fancy" rel="tooltip" data-original-title="Preview"><i class="icon-zoom-in"></i></a>
         <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download" rel="tooltip" data-original-title="Download"><i class="icon-download-alt"></i></a>
         <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit" rel="tooltip" data-original-title="Edit"><i class="icon-pencil"></i></a>
-        <a href="<?php echo site_url("image/comments/$album->id/$image->id"); ?>" class="btn" title="Comments" rel="tooltip" data-original-title="Comments"><i class="icon-comment"></i></a>
+        <?php /* <a href="<?php echo site_url("image/comments/$album->id/$image->id"); ?>" class="btn" title="Comments" rel="tooltip" data-original-title="Comments"><i class="icon-comment"></i></a> */ ?>
         <?php if ($image->published == 1): ?>
         <a href="<?php echo site_url("image/unpublish/$album->id/$image->id"); ?>" class="btn btn-success" title="Published" rel="tooltip" data-original-title="Published"><i class="icon-ok icon-white"></i></a>
         <?php else: ?>
@@ -85,8 +85,8 @@ $includes = array(
       <li class="nav-header"><?php echo $album->name; ?></li>
       <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
       <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i>Configure</a></li>
-      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><i class="icon-book"></i>JSON Feed</a></li>
-      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>"><i class="icon-book"></i>XML Feed</a></li>
+      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>" target="_blank"><i class="icon-book"></i>JSON Feed</a></li>
+      <li><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>" target="_blank"><i class="icon-book"></i>XML Feed</a></li>
       <li class="nav-header">Info</li>
       <li>Images: <?php echo $total_images; ?></li>
       <li>Album file size: <?php echo round($total_file_size / 1024, 2); ?> MB</li>
