@@ -14,7 +14,9 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://dev-gallerycms.com/';
+$config['base_url'] = 'http' . ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 's' : '')
+                      .'://'.$_SERVER['HTTP_HOST'].str_replace('//','/',dirname($_SERVER['SCRIPT_NAME']).'/');
+
 
 /*
  * Page title that appears in the browser's title bar.
@@ -24,7 +26,7 @@ $config['site_title']   = 'GalleryCMS';
 /*
  * From email address for sending system emails.
  */
-$config['from_email_address']   = 'noreply@gallerycms.com';
+$config['from_email_address']   = 'noreply@' . $_SERVER['HTTP_HOST'];
 /*
 |--------------------------------------------------------------------------
 | Index File
