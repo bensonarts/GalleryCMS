@@ -277,7 +277,7 @@ class Album extends MY_Controller
             'auto_publish'    => $this->input->post('auto_publish')
         ), $album_id);
         
-        // TODO Update all album's thumbnails
+        // Update all album's thumbnails
         $images = $this->image_model->get_images_by_album_id($album_id);
         if ( ! empty($images))
         {

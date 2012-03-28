@@ -221,4 +221,15 @@ class Image extends MY_Controller
     redirect("album/images/$album_id");
   }
   
+  /**
+   *
+   * @param type $album_id
+   * @param type $image_id 
+   */
+  public function comments($album_id, $image_id)
+  {
+    // TODO
+    $this->load->view('image/comments');
+  }
+  
 }

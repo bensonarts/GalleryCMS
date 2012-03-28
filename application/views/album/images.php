@@ -59,21 +59,20 @@ $includes = array(
         File name: <?php echo $image->name; ?><br />
         Caption: <?php echo $image->caption; ?><br />
         Comments: <?php echo $image->comments; ?><br />
-        File size: <span class="badge"><?php echo $image->file_size; ?> KB</span><br />
+        File size: <?php echo $image->file_size; ?> KBbr />
         Category: <span class="label label-info">Uncategorized</span>
       </div>
       <div class="btn-group">
-        <a href="<?php echo $img_url; ?>" class="btn img-fancy" title="<?php echo $image->caption; ?>"><i class="icon-zoom-in"></i></a>
-        <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download"><i class="icon-download-alt"></i></a>
-        <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit"><i class="icon-pencil"></i></a>
-        <a href="<?php echo site_url("image/comments/$album->id/$image->id"); ?>" class="btn" title="Comments"><i class="icon-comment"></i></a>
+        <a href="<?php echo $img_url; ?>" class="btn img-fancy" rel="tooltip" data-original-title="Preview"><i class="icon-zoom-in"></i></a>
+        <a href="<?php echo site_url("image/download/$image->id"); ?>" class="btn" title="Download" rel="tooltip" data-original-title="Download"><i class="icon-download-alt"></i></a>
+        <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>" class="btn" title="Edit" rel="tooltip" data-original-title="Edit"><i class="icon-pencil"></i></a>
+        <a href="<?php echo site_url("image/comments/$album->id/$image->id"); ?>" class="btn" title="Comments" rel="tooltip" data-original-title="Comments"><i class="icon-comment"></i></a>
         <?php if ($image->published == 1): ?>
-        <a href="<?php echo site_url("image/unpublish/$album->id/$image->id"); ?>" class="btn btn-success" title="Published"><i class="icon-ok icon-white"></i></a>
+        <a href="<?php echo site_url("image/unpublish/$album->id/$image->id"); ?>" class="btn btn-success" title="Published" rel="tooltip" data-original-title="Published"><i class="icon-ok icon-white"></i></a>
         <?php else: ?>
-        <a href="<?php echo site_url("image/publish/$album->id/$image->id"); ?>" class="btn" title="Unpublished"><i class="icon-ok"></i></a>
+        <a href="<?php echo site_url("image/publish/$album->id/$image->id"); ?>" class="btn" title="Unpublished" rel="tooltip" data-original-title="Unpublished"><i class="icon-ok"></i></a>
         <?php endif; ?>
-        <a href="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" class="btn btn-danger" title="Delete"
-           onclick="confirm('Are you sure you wish to delete this image?')"><i class="icon-remove icon-white"></i></a>
+        <a href="#image-modal" class="btn btn-danger image-delete-btn" title="Delete" rel="tooltip" action="<?php echo site_url("image/remove/$album->id/$image->id"); ?>" data-toggle="modal" data-original-title="Delete"><i class="icon-remove icon-white"></i></a>
       </div>
     </li>
     <?php endforeach; ?>
@@ -96,12 +95,35 @@ $includes = array(
 </span>
 <div class="clear"></div>
 
+<div class="modal hide fade" id="image-modal">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3>Delete Image</h3>
+  </div>
+  <div class="modal-body">
+    <p><strong>Are you sure you want to delete this image?</strong></p>
+  </div>
+  <div class="modal-footer">
+    <a id="image-modal-delete-btn" href="#" class="btn btn-danger">Delete</a>
+    <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
+  $('.btn-group > a').tooltip();
   $('#upload-btn').hide();
   $('#new-images').hide();
   
   $('a.img-fancy').fancybox();
+  
+  $('.image-delete-btn').click(function() {
+    deleteUrl = $(this).attr('action');
+  });
+  
+  $('#image-modal').on('show', function() {
+    $('#image-modal-delete-btn').attr('href', deleteUrl);
+  });
   
   $("#sortable").sortable({
     handle : '.drag-handle',
