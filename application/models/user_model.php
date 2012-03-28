@@ -38,7 +38,7 @@ class User_model extends MY_Model
   {
     $q = $this->db->get_where($this->table_name, array('email_address' => $email_address));
     
-    return $q->result();
+    return $q->row();
   }
 
   public function update_last_ip($user_id)
