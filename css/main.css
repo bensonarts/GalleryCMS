@@ -11,10 +11,14 @@ body { padding-top: 60px; padding-bottom: 40px; }
     #sortable li div.image-container { position: absolute; top: 0; left: 33px; }
     #sortable li div.info { position: absolute; top: 3px; }
     #sortable li div.btn-group { position: absolute; top: 0; right: 0; }
+    
+#feeds { width:500px; height:400px; background: #ffc; border: 1px solid #999; overflow: auto; margin: 0; }
+#takeable { width: 300px; list-style-type: none; margin: 0; }
+  #feeds li, #takeable li { list-style-type: none; background: whitesmoke; border: 1px solid #ccc; padding: 5px; margin: 1px; }
 
 .sidebar-nav { padding: 9px 0; }
 .login { width: 250px; margin: 0 auto; }
-
+#feeds.takeable-active { background: #09f; }
 .w100 { width: 100%; }
 .w90 { width: 90%; }
 .w80 { width: 80%; }

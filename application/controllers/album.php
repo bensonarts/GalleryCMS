@@ -315,4 +315,51 @@ class Album extends MY_Controller
     $this->load->view('album/config', $data);
   }
   
+  /**
+   *
+   * @param type $filename 
+   */
+  public function resize($album_id, $image_id)
+  {
+    $this->load->model('config_model');
+    $image = $this->image_model->find_by_id($image_id);
+    $album_config = $this->config_model->get_by_album_id($album_id);
+    
+    $this->load->library('image_lib');
+    $config = array();
+    $config['image_library']   = 'gd2';
+    $config['source_image']    = './uploads/' . $image->file_name;
+    $config['create_thumb']    = TRUE;
+    $config['maintain_ratio']  = TRUE;
+    $config['width']           = $album_config->thumb_width;
+    $config['height']          = $album_config->thumb_height;
+    $config['thumb_marker']    = '_thumb';
+    // TODO Handle cropping
+    $this->image_lib->initialize($config);
+    $this->image_lib->resize();
+    
+    $success = $this->image_lib->resize();
+    $this->image_lib->clear();
+    
+    if ($success == TRUE)
+    {
+      echo $image->raw_name . '_thumb' . $image->file_ext;
+    } else {
+      echo 'failure';
+    }
+  }
+  
+  /**
+   * 
+   */
+  public function reorder()
+  {
+    // Reorder images with incoming AJAX request
+    foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
+    {
+      $this->image_model->reorder($image_id, $position + 1);
+    }
+    echo 'success';
+  }
+  
 }

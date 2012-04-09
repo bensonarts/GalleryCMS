@@ -51,16 +51,21 @@ $includes = array(
     <li id="image_<?php echo $image->id; ?>" class="ui-state-default" style="height: <?php echo $config->thumb_height + 10; ?>px">
       <div class="drag-handle" style="height: <?php echo $config->thumb_height + 5; ?>px"></div>
       <div class="image-container">
-        <a class="album-images img-fancy thumbnail" ref="group" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
+        <a class="album-images img-fancy thumbnail" href="<?php echo $img_url; ?>" title="<?php echo $image->caption; ?>">
           <img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext . '?r=' . rand(); ?>" alt="<?php echo $image->caption; ?>" />
         </a>
       </div>
       <div class="info" style="left: <?php echo $config->thumb_width + 50; ?>px">
         File name: <?php echo $image->name; ?><br />
-        Caption: <?php echo $image->caption; ?><br />
+        Caption: 
+          <?php if (empty($image->caption)): ?>
+            <a href="<?php echo site_url("image/edit/$album->id/$image->id"); ?>">Create one</a>
+          <?php else: ?>
+            <?php echo $image->caption; ?> 
+          <?php endif; ?>
+          <br />
         <?php /* Comments: <?php echo $image->comments; ?><br /> */ ?>
         File size: <?php echo $image->file_size; ?> KB<br />
-        Category: <span class="label label-info">Uncategorized</span>
       </div>
       <div class="btn-group">
         <a href="<?php echo $img_url; ?>" class="btn img-fancy" rel="tooltip" data-original-title="Preview"><i class="icon-zoom-in"></i></a>
@@ -130,7 +135,7 @@ $(document).ready(function() {
     update : function () { 
       var order = $('#sortable').sortable('serialize', { key : 'order_num[]' }); 
       $.ajax({
-        url          : '<?php echo base_url(); ?>index.php/api/reorder?' + order,
+        url          : '<?php echo base_url(); ?>index.php/album/reorder?' + order,
         type         : 'GET',
         cache        : false,
         success      : function(response) {
@@ -168,7 +173,7 @@ $(document).ready(function() {
       $('#upload-btn').hide();
       $('#new-images').show();
       $.ajax({
-        url          : '<?php echo base_url(); ?>index.php/api/resize/<?php echo $album->id; ?>/' + response,
+        url          : '<?php echo base_url(); ?>index.php/album/resize/<?php echo $album->id; ?>/' + response,
         type         : 'POST',
         cache        : false,
         success      : function(response) {

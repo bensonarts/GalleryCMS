@@ -15,8 +15,9 @@ class Feed_model extends MY_Model
    */
   public function fetch_by_user_id($user_id)
   {
-    $q = $this->db->get($this->table_name)
-                  ->where('user_id', $user_id);
+    $q = $this->db->from($this->table_name)
+                  ->where('user_id', $user_id)
+                  ->get();
     return $q->result();
   }
   
