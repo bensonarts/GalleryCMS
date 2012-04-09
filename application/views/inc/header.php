@@ -34,7 +34,7 @@
       <div class="nav-collapse">
         <ul class="nav">
           <li<?php if ($this->uri->segment(1) == "album") echo ' class="active"'; ?>><a href="<?php echo site_url("album"); ?>">Albums</a></li>
-          <li<?php if ($this->uri->segment(1) == "category") echo ' class="active"'; ?>><a href="<?php echo site_url("category"); ?>">Categories</a></li>
+          <li<?php if ($this->uri->segment(1) == "feed") echo ' class="active"'; ?>><a href="<?php echo site_url("feed"); ?>">Feeds</a></li>
           <li<?php if ($this->uri->segment(1) == "user") echo ' class="active"'; ?>><a href="<?php echo site_url("user"); ?>">Users</a></li>
         </ul>
         <p class="navbar-text pull-right"><a href="<?php echo site_url("auth/logout"); ?>">Logout</a></p>

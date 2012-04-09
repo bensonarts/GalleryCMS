@@ -10,9 +10,9 @@ class Config_model extends MY_Model
   
   public function get_by_album_id($album_id)
   {
-    $this->db->select('*');
-    $this->db->from($this->table_name);
-    $this->db->where('album_id', $album_id);
+    $this->db->select('*')
+             ->from($this->table_name)
+             ->where('album_id', $album_id);
     $q = $this->db->get();
     
     return $q->row();

@@ -80,7 +80,7 @@ class MY_Model extends CI_Model
    */
   public function delete($id)
   {
-    $this->db->delete($this->table_name, array('id' => $id)); 
+    $this->db->delete($this->table_name, array('id' => $id));
   }
   
   /**

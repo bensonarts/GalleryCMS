@@ -180,27 +180,6 @@ class Install extends MY_Controller
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('album_config', TRUE);
     
-    // category table
-    $category = array(
-        'id'             => array(
-            'type'            => 'INT',
-            'auto_increment'  => TRUE,
-            'unsigned'        => TRUE,
-        ),
-        'name'           => array(
-            'type'            => 'VARCHAR',
-            'constraint'      => 45
-        ),
-        'created_by'     => array(
-            'type'            => 'INT',
-            'unsigned'        => TRUE,
-        )
-    );
-    
-    $this->dbforge->add_field($category);
-    $this->dbforge->add_key('id', TRUE);
-    $this->dbforge->create_table('category', TRUE);
-    
     // image table
     $image = array(
         'id'             => array(
@@ -322,40 +301,17 @@ class Install extends MY_Controller
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('image_comment', TRUE);
     
-    // image_category table
-    $image_category = array(
-        'id'             => array(
-            'type'            => 'INT',
-            'auto_increment'  => TRUE,
-            'unsigned'        => TRUE,
-        ),
-        'image_id'       => array(
-            'type'            => 'INT',
-            'null'            => TRUE,
-            'unsigned'        => TRUE,
-        ),
-        'category_id'    => array(
-            'type'            => 'INT',
-            'null'            => TRUE,
-            'unsigned'        => TRUE,
-        )
-    );
-    
-    $this->dbforge->add_field($image_category);
-    $this->dbforge->add_key('id', TRUE);
-    $this->dbforge->create_table('image_category', TRUE);
-    
     // ticket table
     $ticket = array(
         'id'             => array(
             'type'            => 'INT',
             'auto_increment'  => TRUE,
-            'unsigned'        => TRUE,
+            'unsigned'        => TRUE
         ),
         'user_id'        => array(
             'type'            => 'INT',
             'null'            => TRUE,
-            'unsigned'        => TRUE,
+            'unsigned'        => TRUE
         ),
         'uuid'           => array(
             'type'            => 'VARCHAR',
@@ -367,6 +323,65 @@ class Install extends MY_Controller
     $this->dbforge->add_field($ticket);
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('ticket', TRUE);
+    
+    // feed table
+    $feed = array(
+        'id'             => array(
+            'type'            => 'INT',
+            'auto_increment'  => TRUE,
+            'unsigned'        => TRUE
+        ),
+        'name'           => array(
+            'type'            => 'VARCHAR',
+            'constraint'      => 45,
+            'null'            => TRUE
+        ),
+        'user_id'        => array(
+            'type'            => 'INT',
+            'null'            => TRUE,
+            'unsigned'        => TRUE,
+        ),
+        'order_num'      => array(
+            'type'            => 'INT',
+            'null'            => TRUE
+        ),
+        'uuid'           => array(
+            'type'            => 'VARCHAR',
+            'constraint'      => 45,
+            'null'            => TRUE
+        ),
+        'created_at'     => array(
+            'type'            => 'DATETIME',
+            'null'            => TRUE
+        )
+    );
+    
+    $this->dbforge->add_field($feed);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('feed', TRUE);
+    
+    // feed_album table
+    $feed_album = array(
+        'id'             => array(
+            'type'            => 'INT',
+            'auto_increment'  => TRUE,
+            'unsigned'        => TRUE
+        ),
+        'feed_id'        => array(
+            'type'            => 'INT',
+            'null'            => TRUE,
+            'unsigned'        => TRUE
+        ),
+        'album_id'       => array(
+            'type'            => 'INT',
+            'null'            => TRUE,
+            'unsigned'        => TRUE,
+        )
+    );
+    
+    $this->dbforge->add_field($feed_album);
+    $this->dbforge->add_key('id', TRUE);
+    $this->dbforge->create_table('feed_album', TRUE);
     
     // chmod 'uploads' dir
     chmod('./uploads', 0775);

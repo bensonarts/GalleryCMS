@@ -74,9 +74,9 @@ class Image_model extends MY_Model
   public function get_last_order_num($album_id)
   {
     $this->db->from($this->table_name)
-            ->order_by('order_num', 'desc')
-            ->where('album_id', $album_id)
-            ->limit(1);
+              ->order_by('order_num', 'desc')
+              ->where('album_id', $album_id)
+              ->limit(1);
     $q = $this->db->get();
     $result = $q->row();
     if (!empty($result))
@@ -94,10 +94,10 @@ class Image_model extends MY_Model
   public function get_feed($album_id)
   {
     $this->db->select('id, name as title, caption, file_name, path, created_at')
-            ->from($this->table_name)
-            ->where('published', 1)
-            ->where('album_id', $album_id)
-            ->order_by('order_num', 'asc');
+             ->from($this->table_name)
+             ->where('published', 1)
+             ->where('album_id', $album_id)
+             ->order_by('order_num', 'asc');
     $q = $this->db->get();
     
     return $q->result();

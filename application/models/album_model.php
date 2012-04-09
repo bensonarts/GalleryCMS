@@ -15,13 +15,13 @@ class Album_model extends MY_Model
    */
   public function fetch_by_user_id($user_id)
   {
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
-    $this->db->from($this->table_name); 
-    $this->db->join('image', 'image.album_id = album.id', 'left');
-    $this->db->join('user', 'user.id = album.created_by', 'left');
-    $this->db->where('album.created_by', $user_id);
-    $this->db->group_by('album.id');
-    $this->db->order_by('updated_at', 'desc'); 
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id')
+             ->from($this->table_name)
+             ->join('image', 'image.album_id = album.id', 'left')
+             ->join('user', 'user.id = album.created_by', 'left')
+             ->where('album.created_by', $user_id)
+             ->group_by('album.id')
+             ->order_by('updated_at', 'desc'); 
     $q = $this->db->get();
     
     return $q->result();
@@ -33,12 +33,12 @@ class Album_model extends MY_Model
    */
   public function fetch_all()
   {
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
-    $this->db->from($this->table_name); 
-    $this->db->join('image', 'image.album_id = album.id', 'left');
-    $this->db->join('user', 'user.id = album.created_by', 'left');
-    $this->db->group_by('album.id');
-    $this->db->order_by('updated_at', 'desc'); 
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id')
+             ->from($this->table_name)
+             ->join('image', 'image.album_id = album.id', 'left')
+             ->join('user', 'user.id = album.created_by', 'left')
+             ->group_by('album.id')
+             ->order_by('updated_at', 'desc'); 
     $q = $this->db->get();
     
     return $q->result();
@@ -54,13 +54,13 @@ class Album_model extends MY_Model
   {
     $data = array();
     
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
-    $this->db->from($this->table_name); 
-    $this->db->join('image', 'image.album_id = album.id', 'left');
-    $this->db->join('user', 'user.id = album.created_by', 'left');
-    $this->db->group_by('album.id');
-    $this->db->limit($limit, $offset);
-    $this->db->order_by('updated_at', 'desc'); 
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id')
+             ->from($this->table_name)
+             ->join('image', 'image.album_id = album.id', 'left')
+             ->join('user', 'user.id = album.created_by', 'left')
+             ->group_by('album.id')
+             ->limit($limit, $offset)
+             ->order_by('updated_at', 'desc'); 
     $q = $this->db->get();
     
     if ($q->num_rows() > 0)
@@ -85,14 +85,14 @@ class Album_model extends MY_Model
   {
     $data = array();
     
-    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id');
-    $this->db->from($this->table_name); 
-    $this->db->join('image', 'image.album_id = album.id', 'left');
-    $this->db->join('user', 'user.id = album.created_by', 'left');
-    $this->db->group_by('album.id');
-    $this->db->where('album.created_by', $user_id);
-    $this->db->limit($limit, $offset);
-    $this->db->order_by('updated_at', 'desc'); 
+    $this->db->select('album.*, COUNT(image.id) as total_images, user.email_address as user, user.id as user_id')
+             ->from($this->table_name)
+             ->join('image', 'image.album_id = album.id', 'left')
+             ->join('user', 'user.id = album.created_by', 'left')
+             ->group_by('album.id')
+             ->where('album.created_by', $user_id)
+             ->limit($limit, $offset)
+             ->order_by('updated_at', 'desc'); 
     $q = $this->db->get();
     
     if ($q->num_rows() > 0)

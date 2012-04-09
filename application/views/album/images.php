@@ -164,6 +164,7 @@ $(document).ready(function() {
       $('#upload-btn').hide();
     },
     'onComplete'     : function(event, ID, fileObj, response, data) {
+      var fileName = response;
       $('#upload-btn').hide();
       $('#new-images').show();
       $.ajax({
@@ -171,10 +172,8 @@ $(document).ready(function() {
         type         : 'POST',
         cache        : false,
         success      : function(response) {
-          if (response === 'success') {
-            var file_name = fileObj.name.substr(0, fileObj.name.lastIndexOf('.'));
-            var file_ext = fileObj.name.split('.').pop();
-            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/' + file_name + '_thumb.' + file_ext + '" /><br />' + fileObj.name + '</li>';
+          if (response !== 'failure') {
+            var new_image = '<li><img src="<?php echo base_url(); ?>uploads/' + response + '" /><br />' + response + '</li>';
             $('#new-image-list').append(new_image);
           } else {
             var fail_message = '<li>Thumbnail creation failed for: ' + fileObj.name + '</li>';

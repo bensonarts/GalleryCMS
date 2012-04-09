@@ -4,19 +4,19 @@
 
 <div class="well">
 <?php
-echo form_open("category/edit/$category->id");
+echo form_open("feed/edit/$feed->id");
 
-echo form_fieldset('Category Information');
+echo form_fieldset('Feed Information');
 
 echo form_error('name');
-echo form_label('Category Name', 'name');
-echo form_input(array('name' => 'name', 'id' => 'name', 'value' => $category->name));
+echo form_label('Feed Name', 'name');
+echo form_input(array('name' => 'name', 'id' => 'name', 'value' => $feed->name));
 
 echo form_fieldset_close(); 
 
 echo form_button(array('id' => 'submit', 'value' => 'Add', 'name' => 'submit', 'type' => 'submit', 'content' => 'Add','class' => 'btn btn-primary'));
 ?>
- <a href="<?php echo site_url('category'); ?>" class="btn">Cancel</a>
+ <a href="<?php echo site_url('feed'); ?>" class="btn">Cancel</a>
 <?php
 echo form_close();
 ?>

@@ -10,6 +10,7 @@ class Api extends MY_Controller
     parent::__construct();
     $this->load->model('album_model');
     $this->load->model('image_model');
+    $this->load->model('config_model');
   }
   
   /**
@@ -37,7 +38,6 @@ class Api extends MY_Controller
     {
       $upload_info = $this->upload->data();
       
-      $this->load->model('config_model');
       $album_config = $this->config_model->get_by_album_id($album_id);
 
       // Insert file information into database
@@ -67,40 +67,46 @@ class Api extends MY_Controller
       'created_by'     => $this->input->post('user_id')
       );
 
-      $this->image_model->create($image_data);
+      $image_id = $this->image_model->create($image_data);
 
       $this->album_model->update(array('updated_at' => $now), $album_id);
+      
+      echo $image_id;
     }
-    
-    echo $upload_info['file_name'];
   }
   
   /**
    *
    * @param type $filename 
    */
-  public function resize($album_id, $filename)
+  public function resize($album_id, $image_id)
   {
-    $this->load->model('config_model');
+    $image = $this->image_model->find_by_id($image_id);
     $album_config = $this->config_model->get_by_album_id($album_id);
     
+    error_log('hello');
+ 
+    $this->load->library('image_lib');
     $config = array();
     $config['image_library']   = 'gd2';
-    $config['source_image']    = './uploads/' . $filename;
+    $config['source_image']    = './uploads/' . $image->file_name;
     $config['create_thumb']    = TRUE;
     $config['maintain_ratio']  = TRUE;
     $config['width']           = $album_config->thumb_width;
     $config['height']          = $album_config->thumb_height;
-    // TODO Handle cropping.
-    
-    $this->load->library('image_lib', $config); 
+    $config['thumb_marker']    = '_thumb';
+    // TODO Handle cropping
+    $this->image_lib->initialize($config);
+    $this->image_lib->resize();
     
     $success = $this->image_lib->resize();
     $this->image_lib->clear();
     
+    error_log(print_r($config, true));
+    
     if ($success == TRUE)
     {
-      echo 'success';
+      echo $image->raw_name . '_thumb' . $image->file_ext;
     } else {
       echo 'failure';
     }
@@ -183,7 +189,7 @@ class Api extends MY_Controller
     $data = array();
     $data['album'] = $this->get_feed($album_id);
     
-    $this->load->view('feed/xml', $data);
+    $this->load->view('api/xml_album_single', $data);
   }
   
 }
