@@ -168,6 +168,9 @@ $(document).ready(function() {
     'onCancel'       : function(event, ID, fileObj) {
       $('#upload-btn').hide();
     },
+    'onError'        : function(event, ID, fileObj, errorObj) {
+      
+    },
     'onComplete'     : function(event, ID, fileObj, response, data) {
       var fileName = response;
       $('#upload-btn').hide();

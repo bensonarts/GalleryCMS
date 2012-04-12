@@ -24,7 +24,6 @@ class Api extends MY_Controller
     $config['upload_path']    = './uploads/';
     $config['allowed_types']  = 'gif|jpg|png';
     $config['max_size']       = '2048'; // 2MB
-    $config['overwrite']      = TRUE;
     $config['remove_spaces']  = TRUE;
     $config['encrypt_name']   = FALSE;
     $config['overwrite']      = FALSE;
@@ -33,7 +32,8 @@ class Api extends MY_Controller
     
     if (!$this->upload->do_upload('Filedata'))
     {
-      echo $this->upload->display_errors();
+      header('HTTP/1.1 500 Internal Server Error');
+      exit();
     }
     else
     {

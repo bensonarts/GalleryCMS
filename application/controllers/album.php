@@ -323,23 +323,26 @@ class Album extends MY_Controller
   {
     $this->load->model('config_model');
     $image = $this->image_model->find_by_id($image_id);
-    $album_config = $this->config_model->get_by_album_id($album_id);
-    
-    $this->load->library('image_lib');
-    $config = array();
-    $config['image_library']   = 'gd2';
-    $config['source_image']    = './uploads/' . $image->file_name;
-    $config['create_thumb']    = TRUE;
-    $config['maintain_ratio']  = TRUE;
-    $config['width']           = $album_config->thumb_width;
-    $config['height']          = $album_config->thumb_height;
-    $config['thumb_marker']    = '_thumb';
-    // TODO Handle cropping
-    $this->image_lib->initialize($config);
-    $this->image_lib->resize();
-    
-    $success = $this->image_lib->resize();
-    $this->image_lib->clear();
+    if (isset($image))
+    {
+      $album_config = $this->config_model->get_by_album_id($album_id);
+
+      $this->load->library('image_lib');
+      $config = array();
+      $config['image_library']   = 'gd2';
+      $config['source_image']    = './uploads/' . $image->file_name;
+      $config['create_thumb']    = TRUE;
+      $config['maintain_ratio']  = TRUE;
+      $config['width']           = $album_config->thumb_width;
+      $config['height']          = $album_config->thumb_height;
+      $config['thumb_marker']    = '_thumb';
+      // TODO Handle cropping
+      $this->image_lib->initialize($config);
+      $this->image_lib->resize();
+
+      $success = $this->image_lib->resize();
+      $this->image_lib->clear();
+    }
     
     if ($success == TRUE)
     {
