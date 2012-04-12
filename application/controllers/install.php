@@ -336,14 +336,10 @@ class Install extends MY_Controller
             'constraint'      => 45,
             'null'            => TRUE
         ),
-        'user_id'        => array(
+        'created_by'     => array(
             'type'            => 'INT',
             'null'            => TRUE,
             'unsigned'        => TRUE,
-        ),
-        'order_num'      => array(
-            'type'            => 'INT',
-            'null'            => TRUE
         ),
         'uuid'           => array(
             'type'            => 'VARCHAR',
@@ -376,6 +372,10 @@ class Install extends MY_Controller
             'type'            => 'INT',
             'null'            => TRUE,
             'unsigned'        => TRUE,
+        ),
+        'order_num'      => array(
+            'type'            => 'INT',
+            'null'            => TRUE
         )
     );
     

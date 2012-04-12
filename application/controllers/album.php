@@ -355,11 +355,14 @@ class Album extends MY_Controller
   public function reorder()
   {
     // Reorder images with incoming AJAX request
-    foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
+    if( ! empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
     {
-      $this->image_model->reorder($image_id, $position + 1);
+      foreach ($this->input->get('order_num', TRUE) as $position => $image_id)
+      {
+        $this->image_model->reorder($image_id, $position + 1);
+      }
+      echo 'success';
     }
-    echo 'success';
   }
   
 }

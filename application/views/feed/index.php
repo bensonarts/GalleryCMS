@@ -12,7 +12,7 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>My Custom Feeds</th>
+      <th>My Custom Feeds <span style="font-weight: normal;"> - You can create a custom feed by aggregating multiple albums.</span></th>
       <th width="160">
         <a class="btn btn-primary" href="<?php echo site_url("feed/create"); ?>">Create new feed</a>
       </th>
@@ -21,7 +21,7 @@
   <tbody>
   <?php foreach ($feeds as $feed): ?>
     <tr>
-      <td><?php echo $feed->name; ?></td>
+      <td><a href="<?php echo site_url("feed/edit/$feed->id"); ?>"><?php echo $feed->name; ?></a></td>
       <td>
         <div class="btn-group">
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -29,8 +29,13 @@
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo site_url("feed/edit/$feed->id"); ?>"><i class="icon-pencil"></i> Rename</a></li>
+            <li><a href="<?php echo site_url("feed/rename/$feed->id"); ?>"><i class="icon-pencil"></i> Rename</a></li>
+            <li><a href="<?php echo site_url("feed/edit/$feed->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
             <li><a class="user-delete-btn" href="<?php echo site_url("feed/remove/$feed->id"); ?>"><i class="icon-trash"></i> Delete</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo site_url("api/myfeed/json/$feed->id"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
+            <li><a href="<?php echo site_url("api/myfeed/xml/$feed->id"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
+            
           </ul>
         </div>
       </td>
@@ -57,12 +62,14 @@
       <td>
         <div class="btn-group">
           <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-            View
+            Action
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>" target="_blank"><i class="icon-book"></i> JSON</a></li>
-            <li><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>" target="_blank"><i class="icon-book"></i> XML</a></li>
+            <li><a href="<?php echo site_url("album/images/$album->id"); ?>"><i class="icon-pencil"></i> Manage album</a></li>
+            <li class="divider"></li>
+            <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
+            <li><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
           </ul>
         </div>
       </td>

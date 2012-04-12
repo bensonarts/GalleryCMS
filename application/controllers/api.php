@@ -8,6 +8,7 @@ class Api extends MY_Controller
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('feed_model');
     $this->load->model('album_model');
     $this->load->model('image_model');
     $this->load->model('config_model');
@@ -78,6 +79,28 @@ class Api extends MY_Controller
   /**
    *
    * @param type $type
+   * @param type $feed_id 
+   * @throws Exception 
+   */
+  public function myfeed($type, $feed_id)
+  {
+    switch (strtolower($type))
+    {
+      case 'json':
+        $this->output_my_json_feed($feed_id);
+        break;
+      case 'xml':
+        $this->output_my_xml_feed($feed_id);
+        break;
+      default:
+        throw new Exception('This option is not supported.');
+        break;
+    }
+  }
+  
+  /**
+   *
+   * @param type $type
    * @param type $album_id
    * @throws Exception 
    */
@@ -99,27 +122,6 @@ class Api extends MY_Controller
   
   /**
    *
-   * @param type $album_id
-   * @return type 
-   */
-  protected function get_feed($album_id)
-  {
-    $this->load->model('comment_model');
-    $album = $this->album_model->find_by_id($album_id);
-    $image_data = $this->image_model->get_feed($album_id);
-    
-    foreach ($image_data as $image)
-    {
-      $image->comments = $this->comment_model->get_comments_by_image_id($image->id);
-      $image->url = base_url() . 'uploads/' . $image->file_name;
-    }
-    $album->images = $image_data;
-    
-    return $album;
-  }
-  
-  /**
-   *
    * @param type $album_id 
    */
   protected function output_json_feed($album_id)
@@ -127,6 +129,17 @@ class Api extends MY_Controller
     header('Content-Type: text/javascript; charset=utf8');
     
     echo json_encode($this->get_feed($album_id));
+  }
+  
+  /**
+   *
+   * @param type $feed_id 
+   */
+  protected function output_my_json_feed($feed_id)
+  {
+    header('Content-Type: text/javascript; charset=utf8');
+    
+    echo json_encode($this->get_my_feed($feed_id));
   }
   
   /**
@@ -140,6 +153,66 @@ class Api extends MY_Controller
     $data['album'] = $this->get_feed($album_id);
     
     $this->load->view('api/xml_album_single', $data);
+  }
+  
+  /**
+   *
+   * @param type $feed_id 
+   */
+  protected function output_my_xml_feed($feed_id)
+  {
+    header("Content-Type: application/xhtml+xml; charset=utf-8");
+    $data = array();
+    $data['feed'] = $this->get_my_feed($feed_id);
+    
+    $this->load->view('api/xml_album_group', $data);
+  }
+  
+  /**
+   *
+   * @param type $album_id
+   * @return type 
+   */
+  protected function get_feed($album_id)
+  {
+    $album = $this->album_model->find_by_id($album_id);
+    $image_data = $this->image_model->get_feed($album_id);
+    
+    foreach ($image_data as $image)
+    {
+      $image->url = base_url() . 'uploads/' . $image->file_name;
+    }
+    $album->images = $image_data;
+    
+    return $album;
+  }
+  
+  /**
+   *
+   * @param type $feed_id 
+   * @return type
+   */
+  protected function get_my_feed($feed_id)
+  {
+    $feed = $this->feed_model->find_by_id($feed_id);
+    $feed_albums = $this->feed_model->get_feed_albums($feed_id);
+    
+    $albums = array();
+    foreach ($feed_albums as $feed_album)
+    {
+      $album = $this->album_model->find_by_id($feed_album->album_id);
+      $image_data = $this->image_model->get_feed($album->id);
+      foreach ($image_data as $image)
+      {
+        $image->url = base_url() . 'uploads/' . $image->file_name;
+      }
+      $album->images = $image_data;
+      array_push($albums, $album);
+    }
+    $feed->albums = $albums;
+    
+    
+    return $feed;
   }
   
 }
