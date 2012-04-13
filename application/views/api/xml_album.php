@@ -1,5 +1,6 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL; ?>
 <album>
+  <?php if ( ! empty($album)): ?>
   <title><![CDATA[<?php echo $album->name; ?>]]></title>
   <images>
     <?php foreach ($album->images as $image): ?>
@@ -12,4 +13,5 @@
     </image>
     <? endforeach; ?>
   </images>
+  <?php endif; ?>
 </album>

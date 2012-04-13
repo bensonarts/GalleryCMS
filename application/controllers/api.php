@@ -176,6 +176,10 @@ class Api extends MY_Controller
   protected function get_feed($album_uuid)
   {
     $album = $this->album_model->find_by_uuid($album_uuid);
+    if (empty($album))
+    {
+      return array();
+    }
     $image_data = $this->image_model->get_feed($album->id);
     
     foreach ($image_data as $image)
@@ -196,6 +200,10 @@ class Api extends MY_Controller
   protected function get_my_feed($feed_uuid)
   {
     $feed = $this->feed_model->find_by_uuid($feed_uuid);
+    if (empty($feed))
+    {
+      return array();
+    }
     $feed_albums = $this->feed_model->get_feed_albums($feed->id);
     
     $albums = array();
