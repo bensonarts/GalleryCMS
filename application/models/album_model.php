@@ -29,6 +29,17 @@ class Album_model extends MY_Model
   
   /**
    *
+   * @param type $uuid
+   * @return type 
+   */
+  public function find_by_uuid($uuid)
+  {
+    $q = $this->db->get_where($this->table_name, array('uuid' => $uuid));
+    return $q->row();
+  }
+  
+  /**
+   *
    * @return type 
    */
   public function fetch_all()

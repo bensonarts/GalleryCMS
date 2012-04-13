@@ -33,8 +33,8 @@
             <li><a href="<?php echo site_url("feed/edit/$feed->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
             <li><a class="user-delete-btn" href="<?php echo site_url("feed/remove/$feed->id"); ?>"><i class="icon-trash"></i> Delete</a></li>
             <li class="divider"></li>
-            <li><a href="<?php echo site_url("api/myfeed/json/$feed->id"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
-            <li><a href="<?php echo site_url("api/myfeed/xml/$feed->id"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
+            <li><a href="<?php echo site_url("api/myfeed/json/$feed->uuid"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
+            <li><a href="<?php echo site_url("api/myfeed/xml/$feed->uuid"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
             
           </ul>
         </div>
@@ -68,8 +68,8 @@
           <ul class="dropdown-menu">
             <li><a href="<?php echo site_url("album/images/$album->id"); ?>"><i class="icon-pencil"></i> Manage album</a></li>
             <li class="divider"></li>
-            <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
-            <li><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
+            <li><a href="<?php echo site_url("api/feed/json/$album->uuid"); ?>" target="_blank"><i class="icon-book"></i> View JSON</a></li>
+            <li><a href="<?php echo site_url("api/feed/xml/$album->uuid"); ?>" target="_blank"><i class="icon-book"></i> View XML</a></li>
           </ul>
         </div>
       </td>

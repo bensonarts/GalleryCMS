@@ -8,6 +8,7 @@
       <caption><![CDATA[<?php echo $image->caption; ?>]]></caption>
       <filename><?php echo $image->file_name; ?></filename>
       <url><?php echo $image->url; ?></url>
+      <thumb><?php echo $image->thumb; ?></thumb>
     </image>
     <? endforeach; ?>
   </images>

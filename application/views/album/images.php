@@ -90,8 +90,8 @@ $includes = array(
       <li class="nav-header"><?php echo $album->name; ?></li>
       <li><a href="<?php echo site_url("album/edit/$album->id"); ?>"><i class="icon-pencil"></i>Rename</a></li>
       <li><a href="<?php echo site_url("album/configure/$album->id"); ?>"><i class="icon-cog"></i>Configure</a></li>
-      <li><a href="<?php echo site_url("api/feed/json/$album->id"); ?>" target="_blank"><i class="icon-book"></i>JSON Feed</a></li>
-      <li><a href="<?php echo site_url("api/feed/xml/$album->id"); ?>" target="_blank"><i class="icon-book"></i>XML Feed</a></li>
+      <li><a href="<?php echo site_url("api/feed/json/$album->uuid"); ?>" target="_blank"><i class="icon-book"></i>JSON Feed</a></li>
+      <li><a href="<?php echo site_url("api/feed/xml/$album->uuid"); ?>" target="_blank"><i class="icon-book"></i>XML Feed</a></li>
       <li class="nav-header">Info</li>
       <li>Images: <?php echo $total_images; ?></li>
       <li>Album file size: <?php echo round($total_file_size / 1024, 2); ?> MB</li>

@@ -93,7 +93,7 @@ class Image_model extends MY_Model
    */
   public function get_feed($album_id)
   {
-    $this->db->select('id, name as title, caption, file_name, path, created_at')
+    $this->db->select('id, name as title, caption, file_name, raw_name, file_ext, path, created_at')
              ->from($this->table_name)
              ->where('published', 1)
              ->where('album_id', $album_id)

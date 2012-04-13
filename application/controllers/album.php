@@ -118,7 +118,8 @@ class Album extends MY_Controller
       // Success, create album & redirect
       $now = date('Y-m-d H:i:s');
       $data = array(
-                   'name'       => $this->input->post('album_name'), 
+                   'name'       => $this->input->post('album_name'),
+                   'uuid'       => $this->create_uuid(),
                    'created_by' => $user_data['user_id'],
                    'updated_by' => $user_data['user_id'],
                    'created_at' => $now,
@@ -220,6 +221,9 @@ class Album extends MY_Controller
     // Delete album config
     $this->load->model('config_model');
     $this->config_model->delete_by_album_id($album_id);
+    // Delete feeds
+    $this->load->model('feed_model');
+    $this->feed_model->delete_albums_by_album_id($album_id);
     
     $this->session->set_flashdata('flash_message', "Successfully deleted album.");
     redirect('album');

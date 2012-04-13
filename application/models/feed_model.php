@@ -24,6 +24,17 @@ class Feed_model extends MY_Model
   
   /**
    *
+   * @param type $uuid
+   * @return type 
+   */
+  public function find_by_uuid($uuid)
+  {
+    $q = $this->db->get_where($this->table_name, array('uuid' => $uuid));
+    return $q->row();
+  }
+  
+  /**
+   *
    * @param type $feed_id
    * @return type 
    */
@@ -45,6 +56,15 @@ class Feed_model extends MY_Model
   public function delete_albums_by_feed_id($feed_id)
   {
     $this->db->delete($this->join_table_name, array('feed_id' => $feed_id));
+  }
+  
+  /**
+   *
+   * @param type $album_id 
+   */
+  public function delete_albums_by_album_id($album_id)
+  {
+    $this->db->delete($this->join_table_name, array('album_id' => $album_id));
   }
   
   /**

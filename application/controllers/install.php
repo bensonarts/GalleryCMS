@@ -115,6 +115,11 @@ class Install extends MY_Controller
             'auto_increment'  => TRUE,
             'unsigned'        => TRUE,
         ),
+        'uuid'           => array(
+            'type'            => 'VARCHAR',
+            'constraint'      => 45,
+            'null'            => TRUE
+        ),
         'name'           => array(
             'type'            => 'VARCHAR',
             'constraint'      => 45

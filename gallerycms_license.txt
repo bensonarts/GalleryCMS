@@ -1,4 +1,4 @@
- Copyright (c) 2010, Aaron Benson - GalleryCMS - http://www.gallerycms.com
+ Copyright (c) 2012, Aaron Benson - GalleryCMS - http://www.gallerycms.com
 
  GalleryCMS is a free software application built on the CodeIgniter framework. 
  The GalleryCMS application is licensed under the MIT License.
