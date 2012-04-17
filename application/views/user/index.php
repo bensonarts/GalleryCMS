@@ -42,11 +42,11 @@
       <td><?php echo $user->last_ip; ?></td>
       <td>
         <div class="btn-group">
-          <a class="btn dropdown-toggle<?php if ($user_data['is_admin'] != 1 && $user_data['user_id'] != $user->id): ?> disabled<?php endif; ?>" data-toggle="dropdown" href="#">
+          <a class="btn dropdown-toggle<?php if ($user_data['is_admin'] != 1 || $user_data['user_id'] == $user->id): ?> disabled<?php endif; ?>" data-toggle="dropdown" href="#">
             Action
             <span class="caret"></span>
           </a>
-          <?php if ($user_data['is_admin'] == 1 || $user_data['user_id'] == $user->id): ?>
+          <?php if ($user_data['is_admin'] == 1 && $user_data['user_id'] != $user->id): ?>
           <ul class="dropdown-menu">
             <li><a href="<?php echo site_url("user/edit/$user->id"); ?>"><i class="icon-pencil"></i> Edit</a></li>
             <?php if ($user_data['is_admin'] == 1): ?>

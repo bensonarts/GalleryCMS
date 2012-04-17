@@ -127,6 +127,12 @@ class User extends MY_Controller
    */
   public function edit($user_id)
   {
+    $user_data = $this->get_user_data();
+    if ($user_data['user_id'] == $user_id)
+    {
+      redirect('user');
+      exit();
+    }
     $this->load->helper('form');
     
     $data = array();
@@ -142,6 +148,12 @@ class User extends MY_Controller
    */
   public function update($user_id)
   {
+    $user_data = $this->get_user_data();
+    if ($user_data['user_id'] == $user_id)
+    {
+      redirect('user');
+      exit();
+    }
     // Validate form.
     $this->load->helper('form');
     $user = $this->user_model->find_by_id($user_id);
@@ -192,7 +204,8 @@ class User extends MY_Controller
    */
   public function deactivate($user_id)
   {
-    if ($this->is_admin() != TRUE)
+    $user_data = $this->get_user_data();
+    if ($user_data['user_id'] == $user_id || $this->is_admin() != TRUE)
     {
       redirect('user');
       exit();
@@ -213,7 +226,8 @@ class User extends MY_Controller
    */
   public function remove($user_id)
   {
-    if ($this->is_admin() != TRUE)
+    $user_data = $this->get_user_data();
+    if ($user_data['user_id'] == $user_id || $this->is_admin() != TRUE)
     {
       redirect('user');
       exit();
