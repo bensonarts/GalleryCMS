@@ -76,7 +76,6 @@ class Album extends MY_Controller
     }
     $data = array();
     $data['albums'] = $album_data;
-    error_log(print_r($album_data, TRUE));
     
     $this->load->library('pagination');
     
