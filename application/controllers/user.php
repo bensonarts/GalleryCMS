@@ -22,7 +22,7 @@ class User extends MY_Controller
   }
   
   /**
-   * 
+   * Displays list of users.
    */
   public function index()
   {
@@ -40,7 +40,7 @@ class User extends MY_Controller
   }
   
   /**
-   * 
+   * Displays form for new user creation.
    */
   public function create()
   {
@@ -54,7 +54,7 @@ class User extends MY_Controller
   }
   
   /**
-   * 
+   * Handles new user creation.
    */
   public function add()
   {
@@ -93,6 +93,7 @@ class User extends MY_Controller
   }
   
   /**
+   * Display form for editing an existing user.
    *
    * @param type $user_id 
    */
@@ -107,6 +108,7 @@ class User extends MY_Controller
   }
   
   /**
+   * Process editing user.
    *
    * @param type $user_id 
    */
@@ -156,6 +158,7 @@ class User extends MY_Controller
   }
   
   /**
+   * De-activates user and user's images.
    *
    * @param type $user_id 
    */
@@ -176,6 +179,7 @@ class User extends MY_Controller
   }
   
   /**
+   * Deletes user, user's albums, images.
    *
    * @param type $user_id 
    */

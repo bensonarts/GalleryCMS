@@ -13,12 +13,23 @@ body { padding-top: 60px; padding-bottom: 40px; }
     #sortable li div.btn-group { position: absolute; top: 0; right: 0; }
     
 #feeds { width: 400px; height: 400px; background: #ffc; border: 1px solid #999; overflow: auto; margin: 0; list-style-type: none; }
+#feeds.takeable-active { background: #09f; }
 #takeable { width: 400px; height: 400px; background: #fff; border: 1px solid #999; overflow: auto; margin: 0; list-style-type: none; }
   #feeds li, #takeable li { list-style-type: none; background: whitesmoke; border: 1px solid #ccc; padding: 5px; margin: 1px; }
 
+ .mini-image-set { list-style-type: none; margin: 0; padding: 0; }
+  .mini-image-set li { list-style-type: none; margin: 0 2px; padding: 0; float: left; width: 50px; line-height: 0; border: 1px solid #ccc; }
+  .mini-image-set li:nth-child(2) { opacity: 0.9; }
+  .mini-image-set li:nth-child(3) { opacity: 0.8; }
+  .mini-image-set li:nth-child(4) { opacity: 0.7; }
+  .mini-image-set li:nth-child(5) { opacity: 0.6; }
+  .mini-image-set li:nth-child(6) { opacity: 0.5; }
+  .mini-image-set li:nth-child(7) { opacity: 0.4; }
+  .mini-image-set li:nth-child(8) { opacity: 0.3; }
+  .mini-image-set li:nth-child(9) { opacity: 0.2; }
+  .mini-image-set li:nth-child(10) { opacity: 0.1; }
 .sidebar-nav { padding: 9px 0; }
 .login { width: 250px; margin: 0 auto; }
-#feeds.takeable-active { background: #09f; }
 .w100 { width: 100%; }
 .w90 { width: 90%; }
 .w80 { width: 80%; }

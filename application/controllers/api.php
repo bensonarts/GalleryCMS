@@ -15,6 +15,7 @@ class Api extends MY_Controller
   }
   
   /**
+   * Handles image uploads.
    *
    * @param type $album_id 
    */
@@ -77,6 +78,7 @@ class Api extends MY_Controller
   }
   
   /**
+   * Displays json/xml feed for grouped feeds.
    *
    * @param type $type
    * @param type $feed_uuid 
@@ -102,6 +104,7 @@ class Api extends MY_Controller
   }
   
   /**
+   * Displays json/xml feed for singular albums.
    *
    * @param type $type
    * @param type $album_uuid

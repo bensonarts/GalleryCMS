@@ -19,6 +19,9 @@ class Install extends MY_Controller
     }
   }
   
+  /**
+   * Display registration form. Process form, create database tables, create new user, authenticate.
+   */
   public function index()
   {
     $data['email'] = '';
@@ -52,6 +55,9 @@ class Install extends MY_Controller
     $this->load->view('install/index', $data);
   }
   
+  /**
+   * Creates database tables.
+   */
   protected function create_tables()
   {
     $this->load->dbforge();
@@ -388,7 +394,7 @@ class Install extends MY_Controller
     $this->dbforge->add_key('id', TRUE);
     $this->dbforge->create_table('feed_album', TRUE);
     
-    // chmod 'uploads' dir
+    // Change permissions for uploads folder to enable uploading of files.
     chmod('./uploads', 0775);
     
     // Success, create user & redirect
@@ -414,6 +420,7 @@ class Install extends MY_Controller
   }
   
   /**
+   * Creates session data for logged in user.
    *
    * @param type $user 
    */

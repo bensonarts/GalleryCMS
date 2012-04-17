@@ -25,7 +25,18 @@
   <tbody>
   <?php foreach ($albums as $album): ?>
     <tr>
-      <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a></td>
+      <td><a href="<?php echo site_url("album/images/" . $album['id']); ?>"><?php echo $album['name']; ?></a>
+        <?php $images = $album['images']; ?>
+        <?php if (isset($images) && ! empty($images)): ?>
+        <ul class="mini-image-set">
+          <?php foreach ($images as $image): ?>
+          <li>
+            <a href="<?php echo site_url("album/images/" . $album['id']); ?>"><img src="<?php echo base_url() . 'uploads/' . $image->raw_name . '_thumb' . $image->file_ext; ?>" alt="<?php echo $image->caption; ?>" /></a></li>
+          <?php endforeach; ?>
+        </ul>
+        <div class="clear"></div>
+        <?php endif; ?>
+      </td>
       <?php if ($is_admin == TRUE): ?>
         <?php if ($email_address == $album['user']): ?>
         <td>Myself</td>

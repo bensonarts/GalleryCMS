@@ -23,7 +23,7 @@ class Album extends MY_Controller
   }
   
   /**
-   * 
+   * Displays list of albums for regular users. Admins can see all albums.
    */
   public function index()
   {
@@ -33,16 +33,22 @@ class Album extends MY_Controller
     
     if ($this->is_admin() === TRUE)
     {
-      $data = $this->album_model->paginate($per_page, $offset);
+      $album_data = $this->album_model->paginate($per_page, $offset);
       $total = count($this->album_model->fetch_all());
-      $data['albums'] = $data;
     }
     else
     {
-      $data = $this->album_model->paginate_by_user_id($this->get_user_id(), $per_page, $offset);
+      $album_data = $this->album_model->paginate_by_user_id($this->get_user_id(), $per_page, $offset);
       $total = count($this->album_model->fetch_by_user_id($this->get_user_id()));
-      $data['albums'] = $data;
     }
+    
+    for ($i = 0; $i < $total; $i++)
+    {
+      $album_data[$i]['images'] = $this->image_model->get_last_ten_by_album_id($album_data[$i]['id']);
+    }
+    $data = array();
+    $data['albums'] = $album_data;
+    error_log(print_r($album_data, TRUE));
     
     $this->load->library('pagination');
     
@@ -89,7 +95,7 @@ class Album extends MY_Controller
   }
   
   /**
-   * 
+   * View form for creation of album.
    */
   public function create()
   {
@@ -98,7 +104,7 @@ class Album extends MY_Controller
   }
   
   /**
-   * 
+   * Process album addition.
    */
   public function add()
   {
@@ -140,6 +146,7 @@ class Album extends MY_Controller
   }
   
   /**
+   * Display stored album to edit.
    *
    * @param type $album_id 
    */
@@ -191,6 +198,7 @@ class Album extends MY_Controller
   }
   
   /**
+   * Deletes album, according image records and files.
    *
    * @param type $album_id 
    */
@@ -230,6 +238,7 @@ class Album extends MY_Controller
   }
   
   /**
+   * Displays images for selected album. 
    *
    * @param type $album_id 
    */
@@ -253,6 +262,7 @@ class Album extends MY_Controller
   }
   
   /**
+   * Displays configuration options for album, also processes form.
    *
    * @param type $album_id
    * @return type 
@@ -320,6 +330,7 @@ class Album extends MY_Controller
   }
   
   /**
+   * Handles resizing of images per album.
    *
    * @param type $filename 
    */
@@ -357,7 +368,7 @@ class Album extends MY_Controller
   }
   
   /**
-   * 
+   * Handles reordering of images.
    */
   public function reorder()
   {

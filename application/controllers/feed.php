@@ -25,7 +25,7 @@ class Feed extends MY_Controller
   }
 
   /**
-   * 
+   * Displays a list of feeds.
    */
   public function index()
   {
@@ -45,6 +45,7 @@ class Feed extends MY_Controller
   }
 
   /**
+   * Display feed creation view, handles form submission.
    *
    * @return type 
    */
@@ -80,6 +81,7 @@ class Feed extends MY_Controller
   }
 
   /**
+   * Displays feed edit mode.
    *
    * @param type $category_id
    * @return type 
@@ -95,7 +97,7 @@ class Feed extends MY_Controller
     {
       array_push($feed_album_ids, $feed_album->album_id);
     }
-    
+    // Filter out selected albums.
     $albums_filtered = array();
     foreach ($albums as $album)
     {
@@ -120,6 +122,7 @@ class Feed extends MY_Controller
   }
   
   /**
+   * Display rename feed view. Process form submission.
    *
    * @param type $feed_id
    * @return type 
@@ -153,17 +156,20 @@ class Feed extends MY_Controller
   }
 
   /**
+   * Deletes a feed.
    *
    * @param type $category_id 
    */
   public function remove($feed_id)
   {
     $this->feed_model->delete($feed_id);
-    $this->session->set_flashdata('flash_message', "Successfully delted feed.");
+    $this->feed_model->delete_albums_by_feed_id($feed_id);
+    $this->session->set_flashdata('flash_message', "Successfully deleted feed.");
     redirect('feed');
   }
   
   /**
+   * Re-orders albums in a feed.
    *
    * @param type $feed_id 
    */

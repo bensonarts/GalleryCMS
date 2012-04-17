@@ -23,7 +23,7 @@ class Auth extends MY_Controller
   }
   
   /**
-   * 
+   * Display login form.
    */
   public function index()
   {
@@ -40,7 +40,7 @@ class Auth extends MY_Controller
   }
   
   /**
-   * 
+   * Process user authentication.
    */
   public function authenticate()
   {
@@ -69,7 +69,7 @@ class Auth extends MY_Controller
   }
   
   /**
-   * 
+   * Process user logout.
    */
   public function logout()
   {
@@ -78,6 +78,7 @@ class Auth extends MY_Controller
   }
   
   /**
+   * Display forgot password view. Processes forgot password form.
    *
    * @return type 
    */
@@ -125,6 +126,7 @@ class Auth extends MY_Controller
   }
   
   /**
+   * Displays reset password view. Processes password reset.
    *
    * @param type $uuid 
    */
@@ -172,6 +174,7 @@ class Auth extends MY_Controller
   }
   
   /**
+   * Creates session data for logged in user.
    *
    * @param type $user 
    */

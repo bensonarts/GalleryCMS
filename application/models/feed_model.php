@@ -44,7 +44,7 @@ class Feed_model extends MY_Model
                   ->from($this->join_table_name)
                   ->where('feed_id', $feed_id)
                   ->join('album', 'album.id = feed_album.album_id', 'left')
-                  ->order_by('order_num', 'desc')
+                  ->order_by('order_num', 'asc')
                   ->get();
     return $q->result();
   }

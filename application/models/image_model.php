@@ -30,6 +30,22 @@ class Image_model extends MY_Model
   }
   
   /**
+   * Gets ten images from album
+   * 
+   * @param type $album_id 
+   * @return type
+   */
+  public function get_last_ten_by_album_id($album_id)
+  {
+    $this->db->from($this->table_name)
+             ->where(array('album_id' => $album_id))
+             ->order_by('order_num', 'asc')
+             ->limit(10);
+    $q = $this->db->get();
+    return $q->result();
+  }
+  
+  /**
    *
    * @param type $album_id
    * @return type 

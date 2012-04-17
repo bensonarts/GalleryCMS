@@ -17,6 +17,11 @@ $includes = array(
 
 <h1><?php echo $feed->name; ?></h1>
 
+<span>JSON feed</span>
+<pre><a href="<?php echo site_url("api/myfeed/json/$feed->uuid"); ?>" target="_blank"><?php echo site_url("api/myfeed/json/$feed->uuid"); ?></a></pre>
+<span>XML feed</span>
+<pre><a href="<?php echo site_url("api/myfeed/xml/$feed->uuid"); ?>" target="_blank"><?php echo site_url("api/myfeed/xml/$feed->uuid"); ?></a></pre>
+
 <div id="reorder-feedback" class="alert alert-success" style="display: none;"></div>
 
 <div class="alert alert-info">To create a custom feed, drag albums from the right into 'My Feed'.</div>

@@ -23,6 +23,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * Displays image edit form, processes form submission.
    *
    * @param type $album_id
    * @param type $image_id
@@ -147,6 +148,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * Downloads selected image.
    *
    * @param type $image_id 
    */
@@ -166,6 +168,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * Deletes image file and record.
    *
    * @param type $album_id
    * @param type $image_id 
@@ -198,6 +201,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * Publishes an image.
    *
    * @param type $album_id
    * @param type $image_id 
@@ -210,6 +214,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * Un-publishes an image.
    *
    * @param type $album_id
    * @param type $image_id 
@@ -222,6 +227,7 @@ class Image extends MY_Controller
   }
   
   /**
+   * TODO
    *
    * @param type $album_id
    * @param type $image_id 
