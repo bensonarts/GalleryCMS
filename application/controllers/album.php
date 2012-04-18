@@ -70,8 +70,9 @@ class Album extends MY_Controller
       $total = count($this->album_model->fetch_by_user_id($this->get_user_id()));
     }
     
-    for ($i = 0; $i < $total; $i++)
+    for ($i = 0; $i < count($album_data); $i++)
     {
+      error_log($album_data[$i]['id']);
       $album_data[$i]['images'] = $this->image_model->get_last_ten_by_album_id($album_data[$i]['id']);
     }
     $data = array();
