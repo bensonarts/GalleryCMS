@@ -423,7 +423,15 @@ class Install extends MY_Controller
     $this->dbforge->create_table('feed_album', TRUE);
     
     // Change permissions for uploads folder to enable uploading of files.
-    chmod('./uploads', 0775);
+    $upload_dir = './uploads';
+    if ( ! file_exists($upload_dir))
+    {
+      mkdir($upload_dir, 0775);
+    }
+    else
+    {
+      chmod($upload_dir, 0775);
+    }
     
     // Success, create user & redirect
     $this->load->model('user_model');
