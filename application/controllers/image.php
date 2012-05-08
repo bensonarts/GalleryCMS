@@ -250,7 +250,7 @@ class Image extends MY_Controller
   public function unpublish($album_id, $image_id)
   {
     $this->image_model->update(array('published' => 0), $image_id);
-    $this->session->set_flashdata('flash_message', "Successfully published image.");
+    $this->session->set_flashdata('flash_message', "Successfully unpublished image.");
     redirect("album/images/$album_id");
   }
   

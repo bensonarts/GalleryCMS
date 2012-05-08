@@ -85,14 +85,14 @@ class Album extends MY_Controller
     $config['per_page']         = $per_page;
     $config['full_tag_open']    = '<div class="pagination"><ul>';
     $config['full_tag_close']   = '</ul></div>';
-    $config['first_link']       = FALSE;
-    $config['last_link']        = FALSE;
+    $config['first_link']       = '&larr; First';
+    $config['last_link']        = 'Last &rarr;';
     $config['first_tag_open']   = '<li>';
     $config['first_tag_close']  = '</li>';
-    $config['prev_link']        = '&larr; Previous';
+    $config['prev_link']        = 'Previous';
     $config['prev_tag_open']    = '<li class="prev">';
     $config['prev_tag_close']   = '</li>';
-    $config['next_link']        = 'Next &rarr;';
+    $config['next_link']        = 'Next';
     $config['next_tag_open']    = '<li>';
     $config['next_tag_close']   = '</li>';
     $config['last_tag_open']    = '<li>';
@@ -101,6 +101,7 @@ class Album extends MY_Controller
     $config['cur_tag_close']    = '</a></li>';
     $config['num_tag_open']     = '<li>';
     $config['num_tag_close']    = '</li>';
+    $config['num_links']        = 4;
     
     $this->pagination->initialize($config);
     
